@@ -8,6 +8,7 @@
         "buildCommand": "bun run build",
         "devCommand": "bun run dev"
       }
-    }
+    },
+    {}
   ]
 }
