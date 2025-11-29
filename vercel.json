@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next",
+      "config": {
+        "buildCommand": "bun run build",
+        "devCommand": "bun run dev"
+      }
+    }
+  ]
+}
