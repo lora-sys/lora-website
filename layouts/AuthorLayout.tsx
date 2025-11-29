@@ -3,6 +3,9 @@ import type { Authors } from 'contentlayer/generated'
 import SocialIcon from '@/components/social-icons'
 import Image from '@/components/Image'
 import GithubContributionGraph from '@/components/GithubContributionGraph'
+import Timeline from '@/components/Timeline'
+import timelineData from '@/data/timelineData'
+import { FadeIn } from '@/components/GsapWrapper'
 
 interface Props {
   children: ReactNode
@@ -45,9 +48,19 @@ export default function AuthorLayout({ children, content }: Props) {
               <GithubContributionGraph />
             </div>
           </div>
-          <div className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2">
+          <FadeIn
+            delay={0.4}
+            y={30}
+            className="prose dark:prose-invert max-w-none pt-8 pb-8 xl:col-span-2"
+          >
             {children}
-          </div>
+
+            {/* Timeline Section */}
+            <div className="not-prose mt-12">
+              <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-white">My Journey</h2>
+              <Timeline events={timelineData} />
+            </div>
+          </FadeIn>
         </div>
       </div>
     </>

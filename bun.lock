@@ -1,10 +1,10 @@
 {
   "lockfileVersion": 1,
-  "configVersion": 1,
   "workspaces": {
     "": {
       "name": "tailwind-nextjs-starter-blog",
       "dependencies": {
+        "@gsap/react": "^2.1.2",
         "@headlessui/react": "2.2.0",
         "@next/bundle-analyzer": "15.2.4",
         "@tailwindcss/forms": "^0.5.9",
@@ -15,6 +15,7 @@
         "esbuild": "0.25.2",
         "github-slugger": "^2.0.0",
         "gray-matter": "^4.0.2",
+        "gsap": "^3.13.0",
         "hast-util-from-html-isomorphic": "^2.0.0",
         "image-size": "2.0.1",
         "next": "15.2.4",
@@ -432,6 +433,8 @@
     "@grpc/grpc-js": ["@grpc/grpc-js@1.14.1", "https://registry.npmmirror.com/@grpc/grpc-js/-/grpc-js-1.14.1.tgz", { "dependencies": { "@grpc/proto-loader": "^0.8.0", "@js-sdsl/ordered-map": "^4.4.2" } }, "sha512-sPxgEWtPUR3EnRJCEtbGZG2iX8LQDUls2wUS3o27jg07KqJFMq6YDeWvMo1wfpmy3rqRdS0rivpLwhqQtEyCuQ=="],
 
     "@grpc/proto-loader": ["@grpc/proto-loader@0.8.0", "https://registry.npmmirror.com/@grpc/proto-loader/-/proto-loader-0.8.0.tgz", { "dependencies": { "lodash.camelcase": "^4.3.0", "long": "^5.0.0", "protobufjs": "^7.5.3", "yargs": "^17.7.2" }, "bin": { "proto-loader-gen-types": "build/bin/proto-loader-gen-types.js" } }, "sha512-rc1hOQtjIWGxcxpb9aHAfLpIctjEnsDehj0DAiVfBlmT84uvR0uUtN2hEi/ecvWVjXUGf5qPF4qEgiLOx1YIMQ=="],
+
+    "@gsap/react": ["@gsap/react@2.1.2", "https://registry.npmmirror.com/@gsap/react/-/react-2.1.2.tgz", { "peerDependencies": { "gsap": "^3.12.5", "react": ">=17" } }, "sha512-JqliybO1837UcgH2hVOM4VO+38APk3ECNrsuSM4MuXp+rbf+/2IG2K1YJiqfTcXQHH7XlA0m3ykniFYstfq0Iw=="],
 
     "@headlessui/react": ["@headlessui/react@2.2.0", "https://registry.npmmirror.com/@headlessui/react/-/react-2.2.0.tgz", { "dependencies": { "@floating-ui/react": "^0.26.16", "@react-aria/focus": "^3.17.1", "@react-aria/interactions": "^3.21.3", "@tanstack/react-virtual": "^3.8.1" }, "peerDependencies": { "react": "^18 || ^19 || ^19.0.0-rc", "react-dom": "^18 || ^19 || ^19.0.0-rc" } }, "sha512-RzCEg+LXsuI7mHiSomsu/gBJSjpupm6A1qIZ5sWjd7JhARNlMiSA4kKfJpCKwU9tE+zMRterhhrP74PvfJrpXQ=="],
 
@@ -1290,6 +1293,8 @@
     "graphemer": ["graphemer@1.4.0", "https://registry.npmmirror.com/graphemer/-/graphemer-1.4.0.tgz", {}, "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag=="],
 
     "gray-matter": ["gray-matter@4.0.3", "https://registry.npmmirror.com/gray-matter/-/gray-matter-4.0.3.tgz", { "dependencies": { "js-yaml": "^3.13.1", "kind-of": "^6.0.2", "section-matter": "^1.0.0", "strip-bom-string": "^1.0.0" } }, "sha512-5v6yZd4JK3eMI3FqqCouswVqwugaA9r4dNZB1wwcmrD02QkV5H0y7XBQW8QwQqEaZY1pM9aqORSORhJRdNK44Q=="],
+
+    "gsap": ["gsap@3.13.0", "https://registry.npmmirror.com/gsap/-/gsap-3.13.0.tgz", {}, "sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw=="],
 
     "gzip-size": ["gzip-size@6.0.0", "https://registry.npmmirror.com/gzip-size/-/gzip-size-6.0.0.tgz", { "dependencies": { "duplexer": "^0.1.2" } }, "sha512-ax7ZYomf6jqPTQ4+XCpUGyXKHk5WweS+e05MBO4/y3WJ5RkmPXNKvX+bx1behVILVwr6JSQvZAku021CHPXG3Q=="],
 

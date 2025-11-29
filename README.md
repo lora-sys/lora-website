@@ -35,16 +35,19 @@ Welcome to my personal blog! This is a modern, responsive blog built with Next.j
 ## 🚀 Getting Started
 
 1. Clone the repository:
+
    ```bash
-   git clone https://github.com/lora-sys/lora-blog.git
+   git clone https://github.com/lora-sys/lora-website.git
    ```
 
 2. Install dependencies (using Bun):
+
    ```bash
    bun install
    ```
 
 3. Run the development server:
+
    ```bash
    bun dev
    ```
@@ -74,5 +77,6 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 🙋‍♂️ Author
 
 **Lora** - Software Engineer
+
 - GitHub: [@lora-sys](https://github.com/lora-sys)
 - Twitter: [@MierPiter33280](https://x.com/MierPiter33280)

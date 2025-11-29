@@ -6,30 +6,9 @@ import NewsletterForm from 'pliny/ui/NewsletterForm'
 import TypewriterTitle from '@/components/TypewriterTitle'
 import projectsData from '@/data/projectsData'
 import ProjectCard from '@/components/ProjectCard'
+import { StaggerContainer } from '@/components/GsapWrapper'
 
-// 定义技能标签数组
-const skills = [
-  'JavaScript',
-  'TypeScript',
-  'React',
-  'Next.js',
-  'Node.js',
-  'Python',
-  'Tailwind CSS',
-  'HTML/CSS',
-  'Git',
-  'RESTful APIs',
-  'MongoDB',
-  'PostgreSQL',
-  'Docker',
-  'AWS',
-  'CI/CD',
-  'Testing',
-  'Agile',
-  'UI/UX',
-  'Responsive Design',
-  'Performance Optimization',
-]
+import skills from '@/data/skillsData'
 
 const MAX_DISPLAY = 5
 
@@ -52,23 +31,21 @@ export default function Home({ posts }) {
           </p>
 
           {/* 技能标签云 */}
-          <div className="animate-fade-in-up pt-6 delay-200">
+          <div className="pt-6">
             <h2 className="pb-4 text-xl font-bold text-gray-900 dark:text-gray-100">My Skills</h2>
-            <div className="flex flex-wrap gap-2">
+            <StaggerContainer className="flex flex-wrap gap-2" stagger={0.05} delay={0.2}>
               {skills.map((skill, index) => (
                 <span
                   key={skill}
-                  className="animate-pulse rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 transition-all duration-300 hover:scale-110 hover:animate-none hover:shadow-md dark:bg-gray-800 dark:text-gray-200"
+                  className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-800 transition-all duration-300 hover:scale-110 hover:shadow-md dark:bg-gray-800 dark:text-gray-200"
                   style={{
                     fontSize: `${0.8 + (index % 5) * 0.1}rem`,
-                    animationDelay: `${index * 0.1}s`,
-                    animationDuration: '2s',
                   }}
                 >
                   {skill}
                 </span>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
 
           <div className="animate-fade-in-up flex flex-wrap gap-4 pt-6 delay-300">
@@ -88,22 +65,19 @@ export default function Home({ posts }) {
         </div>
 
         {/* 项目展示模块 */}
-        <div className="animate-fade-in-up py-12 delay-400">
-          <h2 className="animate-fade-in mb-6 border-b border-gray-200 pb-4 text-2xl font-bold text-gray-900 dark:border-gray-700 dark:text-gray-100">
+        <div className="py-12">
+          <h2 className="mb-6 border-b border-gray-200 pb-4 text-2xl font-bold text-gray-900 dark:border-gray-700 dark:text-gray-100">
             Featured Projects
           </h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <StaggerContainer
+            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3"
+            stagger={0.15}
+            delay={0.3}
+          >
             {projectsData.map((project, index) => (
-              <div
-                key={index}
-                style={{
-                  animationDelay: `${index * 0.1 + 0.5}s`,
-                }}
-              >
-                <ProjectCard project={project} />
-              </div>
+              <ProjectCard key={index} project={project} />
             ))}
-          </div>
+          </StaggerContainer>
         </div>
         <ul className="divide-y divide-gray-200 dark:divide-gray-700">
           {!posts.length && 'No posts found.'}
