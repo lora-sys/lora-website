@@ -1,0 +1,285 @@
+---
+title: "Tech Stack 2024"
+description: "An overview of the technologies I use to build modern web applications."
+date: "2024-01-05"
+tags: ["Technology", "Tutorial"]
+category: "blog"
+---
+
+# My Tech Stack 2024
+
+Technology evolves rapidly, but some tools stand the test of time. Here's my current stack for building modern web applications.
+
+## Core Technologies
+
+### Next.js 15
+Next.js is the foundation of my web development workflow. Why I love it:
+
+- **Server Components**: Improved performance and smaller bundle sizes
+- **App Router**: More intuitive routing with layouts and nested routes
+- **Built-in Optimization**: Image optimization, font optimization, and more
+- **TypeScript First**: Excellent TypeScript support out of the box
+
+```typescript
+// app/page.tsx
+export default function Page() {
+  return (
+    <main>
+      <h1>Hello, World!</h1>
+    </main>
+  );
+}
+```
+
+### TypeScript
+TypeScript is no longer optional for serious development:
+
+- **Type Safety**: Catch errors before runtime
+- **Better IDE Support**: Improved autocomplete and refactoring
+- **Documentation as Types**: Types serve as inline documentation
+- **Scalability**: Easier to maintain large codebases
+
+```typescript
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'user' | 'guest';
+}
+
+function createUser(data: Omit<User, 'id'>): User {
+  return {
+    id: generateId(),
+    ...data
+  };
+}
+```
+
+## Styling & UI
+
+### Tailwind CSS 4
+The utility-first CSS framework that changed how I write styles:
+
+```tsx
+<div className="bg-gradient-to-r from-purple-500 to-blue-500 p-6 rounded-xl">
+  <h2 className="text-2xl font-bold text-white">
+    Beautiful gradient card
+  </h2>
+</div>
+```
+
+**Benefits:**
+- Fast development with pre-built classes
+- Consistent design system
+- Easy to customize via config
+- Excellent dark mode support
+
+### shadcn/ui
+My go-to component library:
+
+- **Copy-paste components**: Full control over your code
+- **Radix UI primitives**: Accessible and customizable
+- **Tailwind-based**: Perfect integration with my workflow
+- **Active community**: Regular updates and improvements
+
+## State Management
+
+### Zustand
+Lightweight state management solution:
+
+```typescript
+import { create } from 'zustand';
+
+interface AppState {
+  count: number;
+  increment: () => void;
+}
+
+const useStore = create<AppState>((set) => ({
+  count: 0,
+  increment: () => set((state) => ({ count: state.count + 1 })),
+}));
+```
+
+**Why Zustand over Redux?**
+- Simpler API with less boilerplate
+- No need for providers and contexts
+- Better TypeScript support
+- Smaller bundle size
+
+### TanStack Query
+Server state management:
+
+```typescript
+const { data, isLoading, error } = useQuery({
+  queryKey: ['users'],
+  queryFn: fetchUsers,
+  staleTime: 5 * 60 * 1000, // 5 minutes
+});
+```
+
+## Database & Backend
+
+### Prisma
+Modern database toolkit:
+
+```prisma
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  posts     Post[]
+  createdAt DateTime @default(now())
+}
+```
+
+**Features I love:**
+- Type-safe database access
+- Auto-generated migrations
+- Great TypeScript support
+- Multiple database backends (PostgreSQL, MySQL, SQLite)
+
+### Next.js API Routes
+Serverless API endpoints:
+
+```typescript
+// app/api/users/route.ts
+export async function GET() {
+  const users = await db.user.findMany();
+  return Response.json(users);
+}
+
+export async function POST(request: Request) {
+  const data = await request.json();
+  const user = await db.user.create({ data });
+  return Response.json(user, { status: 201 });
+}
+```
+
+## Animation & Interactions
+
+### Framer Motion
+Powerful animation library:
+
+```tsx
+import { motion } from 'framer-motion';
+
+<motion.div
+  initial={{ opacity: 0, scale: 0.8 }}
+  animate={{ opacity: 1, scale: 1 }}
+  whileHover={{ scale: 1.05 }}
+  whileTap={{ scale: 0.95 }}
+  className="card"
+>
+  Content
+</motion.div>
+```
+
+## Content & Documentation
+
+### MDX
+Markdown with React components:
+
+```mdx
+# My Post
+
+Some regular **markdown**.
+
+<Alert variant="warning">
+  This is a React component inside MDX!
+</Alert>
+```
+
+## Development Tools
+
+### ESLint & Prettier
+Code quality and formatting:
+
+```json
+{
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5"
+}
+```
+
+### Git Hooks with Husky
+Automated checks before commits:
+
+```bash
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run lint
+npm run test
+```
+
+## Performance Optimization
+
+### Image Optimization
+```tsx
+import Image from 'next/image';
+
+<Image
+  src="/hero.jpg"
+  alt="Hero section"
+  width={1200}
+  height={600}
+  priority
+  placeholder="blur"
+/>
+```
+
+### Code Splitting
+```tsx
+const HeavyComponent = dynamic(
+  () => import('./HeavyComponent'),
+  { loading: () => <Skeleton /> }
+);
+```
+
+## Testing
+
+### Vitest
+Fast unit testing framework:
+
+```typescript
+import { describe, it, expect } from 'vitest';
+import { sum } from './math';
+
+describe('sum', () => {
+  it('adds two numbers', () => {
+    expect(sum(2, 3)).toBe(5);
+  });
+});
+```
+
+## Deployment
+
+### Vercel
+My preferred deployment platform:
+
+- **Preview deployments**: Test changes before merging
+- **Edge network**: Fast global delivery
+- **Analytics**: Built-in performance insights
+- **Zero config**: Automatic optimization
+
+## What's on My Radar?
+
+Technologies I'm exploring:
+
+1. **Bun**: Faster runtime and package manager
+2. **T3 Stack**: Opinionated Next.js stack
+3. **Drizzle ORM**: Lightweight alternative to Prisma
+4. **Hono**: Fast web framework for edge functions
+
+## Conclusion
+
+This stack serves my needs well, but I'm always open to new tools and technologies. The key is choosing the right tool for the job and staying adaptable.
+
+> "The best code is the code you don't have to write." — Unknown
+
+---
+
+*Updated for 2024 • Originally published January 5, 2024*
