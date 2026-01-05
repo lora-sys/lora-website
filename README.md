@@ -26,9 +26,7 @@ This scaffold provides a robust foundation built with:
 - **🔄 TanStack Query** - Powerful data synchronization for React
 - **🌐 Fetch** - Promise-based HTTP request
 
-### 🗄️ Database & Backend
-- **🗄️ Prisma** - Next-generation TypeScript ORM
-- **🔐 NextAuth.js** - Complete open-source authentication solution
+### 🗄️ Backend & Content
 
 ### 🎨 Advanced UI Features
 - **📊 TanStack Table** - Headless UI for building tables and datagrids
@@ -118,8 +116,8 @@ This scaffold includes a comprehensive set of modern web development tools:
 - **Theme Switching**: Built-in dark/light mode support
 
 ### 🔐 Backend Integration
-- **Authentication**: Ready-to-use auth flows with NextAuth.js
-- **Database**: Type-safe database operations with Prisma
+- **📝 MDX Content** - File-based content management with MDX
+- **📁 File-based CMS** - Blog and content powered by MDX files
 - **API Client**: HTTP requests with Fetch + TanStack Query
 - **State Management**: Simple and scalable with Zustand
 
