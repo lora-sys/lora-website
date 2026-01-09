@@ -7,8 +7,8 @@ A modern digital portfolio and showcase website built with cutting-edge web tech
 This project is built with modern web development technologies:
 
 ### 🎯 Core Framework
-- **⚡ Next.js 15** - The React framework for production with App Router
-- **📘 React 19** - Latest React for building user interfaces
+- **⚡ Next.js 16.1.1** - The React framework for production with App Router (Upgraded from 15.3.5)
+- **📘 React 19.2.3** - Latest React for building user interfaces (Upgraded from 19.2.1)
 - **📘 TypeScript 5** - Type-safe JavaScript for better developer experience
 - **🎨 Tailwind CSS 4** - Utility-first CSS framework for rapid UI development
 
@@ -42,12 +42,12 @@ This project is built with modern web development technologies:
 
 ### 📦 Markdown & Content
 - **📝 MDX** - Markdown with JSX support
-- **📝 next-mdx-remote** - Remote MDX compilation
+- **📝 next-mdx-remote** - Remote MDX compilation (configured with plugins for Next.js 16 compatibility)
 - **📝 @mdx-js/loader** - MDX loader for Webpack
 - **📝 @mdx-js/react** - React components for MDX
 - **📝 @mdxeditor/editor** - MDX editor component
 - **💡 Highlight.js** - Syntax highlighting
-- **🔧 rehype-highlight** - Highlight code in MDX
+- **🔧 rehype-highlight** - Highlight code in MDX (configured in MDXContent component for Next.js 16)
 - **🔧 rehype-slug** - Add slugs to headings
 - **🔧 remark-gfm** - GitHub Flavored Markdown
 
@@ -263,6 +263,27 @@ Open [http://localhost:3000](http://localhost:3000) to see your application runn
 - **Blog Modal**: Modal-based blog reading experience
 - **MDX Components**: Custom components for MDX rendering
 - **Code Highlighting**: Syntax highlighting for code blocks
+
+### 🔄 Next.js 16 Upgrade (January 2026)
+**Successfully upgraded from Next.js 15.3.5 to Next.js 16.1.1**
+
+#### Key Changes:
+- ✅ **Core Framework**: Next.js 15.3.5 → 16.1.1
+- ✅ **React Version**: 19.2.1 → 19.2.3
+- ✅ **Type Definitions**: @types/react 19 → 19.2.7, @types/react-dom 19 → 19.2.3
+- ✅ **Turbopack**: Now default in Next.js 16 (no flags needed)
+- ✅ **ESLint Configuration**: Removed from `next.config.ts`, migrated to standalone ESLint v9
+
+#### MDX Configuration Fixed:
+- ✅ **rehype-highlight**: Configured for code syntax highlighting
+- ✅ **rehype-slug**: Added automatic heading anchors
+- ✅ **remark-gfm**: GitHub Flavored Markdown support (tables, task lists, strikethrough)
+- ✅ **globals.css**: Updated to support both `.hljs-*` and `.language-*` class names
+
+#### Migration Notes:
+- **Breaking Change**: Next.js 16 uses Turbopack by default, which requires serializable configuration options
+- **Solution**: MDX plugins configured in `MDXContent.tsx` component instead of `next.config.ts`
+- **Result**: Full MDX functionality restored with syntax highlighting and GFM support
 
 ## 🔧 Configuration
 
