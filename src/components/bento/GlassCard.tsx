@@ -1,8 +1,10 @@
 'use client';
 
-import { useRef, useState, ReactNode, MouseEvent, useEffect } from 'react';
+import { useRef, useState, ReactNode, MouseEvent } from 'react';
 import { motion } from 'framer-motion';
 import { LiquidGlass } from './LiquidGlass';
+import { useIsMobile } from '@/hooks/useMediaQuery';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
 
 interface GlassCardProps {
   children: ReactNode;
@@ -11,73 +13,97 @@ interface GlassCardProps {
   enable3D?: boolean;
   enableLiquid?: boolean;
   liquidColor?: string;
+  bookMode?: boolean;
 }
 
-export function GlassCard({ children, className = '', onClick, enable3D = true, enableLiquid = false, liquidColor = '#A855F7' }: GlassCardProps) {
+export function GlassCard({ children, className = '', onClick, enable3D = false, enableLiquid = false, liquidColor = '#A855F7', bookMode = false }: GlassCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [rotateX, setRotateX] = useState(0);
   const [rotateY, setRotateY] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useIsMobile();
+  const prefersReducedMotion = useReducedMotion();
 
-  // Check if device is mobile
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768 || 'ontouchstart' in window);
-    };
-
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
+  // Optimized mouse move handler with requestAnimationFrame
+  const rafRef = useRef<number | null>(null);
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>) => {
-    if (!enable3D || isMobile || !cardRef.current) return;
+    if (!enable3D || isMobile || prefersReducedMotion || !cardRef.current) return;
 
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
+    // Cancel previous RAF if exists to prevent backlog
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+    }
 
-    const mouseX = e.clientX - centerX;
-    const mouseY = e.clientY - centerY;
+    rafRef.current = requestAnimationFrame(() => {
+      const card = cardRef.current;
+      if (!card) return;
 
-    // Calculate rotation based on mouse position (max 10 degrees)
-    const rotateYVal = (mouseX / (rect.width / 2)) * 10;
-    const rotateXVal = -(mouseY / (rect.height / 2)) * 10;
+      const rect = card.getBoundingClientRect();
+      const centerX = rect.left + rect.width / 2;
+      const centerY = rect.top + rect.height / 2;
 
-    setRotateX(rotateXVal);
-    setRotateY(rotateYVal);
+      const mouseX = e.clientX - centerX;
+      const mouseY = e.clientY - centerY;
+
+      // Calculate rotation based on mouse position (max 10 degrees)
+      const rotateYVal = (mouseX / (rect.width / 2)) * 10;
+      const rotateXVal = -(mouseY / (rect.height / 2)) * 10;
+
+      setRotateX(rotateXVal);
+      setRotateY(rotateYVal);
+    });
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
     setRotateX(0);
     setRotateY(0);
+
+    // Clean up RAF
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
   };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
 
+  const bookModeInitial = bookMode && !prefersReducedMotion ? {
+    scale: 0.95,
+    opacity: 0.8,
+    filter: 'blur(0.5px)'
+  } : {
+    opacity: 0,
+    y: prefersReducedMotion ? 0 : 20
+  };
+
+  const bookModeWhileHover = bookMode && !isMobile && !prefersReducedMotion ? {
+    scale: 1.05,
+    opacity: 1,
+    filter: 'blur(0px)',
+    boxShadow: '0 0 40px rgba(168, 85, 247, 0.4)',
+    transition: { duration: 0.2, ease: [0.4, 0, 0.2, 1] as any }
+  } : {};
+
   return (
     <motion.div
       ref={cardRef}
       className={`
         glass-effect
-        glass-card-3d
         rounded-2xl
         p-6
         cursor-pointer
-        transition-all
-        duration-300
         ${isHovered ? 'glass-effect-hover' : ''}
-        ${onClick ? 'hover:scale-[1.02]' : ''}
+        ${onClick && !bookMode ? 'hover:scale-[1.02]' : ''}
+        ${bookMode ? 'book-mode-card' : ''}
         ${className}
       `}
       style={{
-        '--rotate-x': enable3D && !isMobile ? `${rotateX}deg` : '0deg',
-        '--rotate-y': enable3D && !isMobile ? `${rotateY}deg` : '0deg',
+        '--rotate-x': enable3D && !isMobile && !prefersReducedMotion ? `${rotateX}deg` : '0deg',
+        '--rotate-y': enable3D && !isMobile && !prefersReducedMotion ? `${rotateY}deg` : '0deg',
+        willChange: isHovered && !prefersReducedMotion ? 'transform' : 'auto',
       } as React.CSSProperties}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
@@ -91,15 +117,15 @@ export function GlassCard({ children, className = '', onClick, enable3D = true, 
           onClick();
         }
       } : undefined}
-      initial={{ opacity: 0, y: 20 }}
+      initial={bookModeInitial}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-50px' }}
-      transition={{ duration: 0.5 }}
-      whileTap={onClick ? { scale: 0.98 } : {}}
-      whileHover={enable3D && !isMobile ? {
+      transition={{ duration: prefersReducedMotion ? 0 : 0.2 }} // Reduced from 0.5 to 0.2
+      whileTap={onClick && !prefersReducedMotion ? { scale: 0.98 } : {}}
+      whileHover={bookMode ? bookModeWhileHover : (enable3D && !isMobile && !prefersReducedMotion ? {
         scale: 1.02,
         boxShadow: isHovered ? '0 0 30px rgba(168, 85, 247, 0.2)' : 'none'
-      } : {}}
+      } : {})}
     >
       {/* Liquid Glass Effect */}
       {enableLiquid && (
@@ -112,7 +138,7 @@ export function GlassCard({ children, className = '', onClick, enable3D = true, 
         className="glass-card-content preserve-3d relative z-10"
         style={{
           transform: `translateX(${rotateY * 0.5}px) translateY(${-rotateX * 0.5}px)`,
-          transition: 'transform 0.1s ease-out'
+          transition: 'transform 0.05s ease-out' // Reduced from 0.1s to 0.05s for smoother feel
         }}
       >
         {children}
@@ -127,6 +153,7 @@ export function GlassCard({ children, className = '', onClick, enable3D = true, 
           }}
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.2 }}
+          transition={{ duration: 0.1 }}
         />
       )}
     </motion.div>

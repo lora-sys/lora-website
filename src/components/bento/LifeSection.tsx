@@ -105,12 +105,12 @@ function PolaroidPhoto({ photo, index }: PolaroidPhotoProps) {
       style={{
         transform: `perspective(1000px) rotate(${photo.rotation}deg)`,
       }}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <GlassCard
         className={`relative bg-[#1a1a1a] p-3 pt-12 ${isHovered ? 'scale-105' : ''}`}
         enable3D={false}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
       >
         {/* Photo Container with 3D Parallax */}
         <motion.div

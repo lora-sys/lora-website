@@ -1,5 +1,6 @@
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Badge } from '@/components/ui/badge';
+import Link from 'next/link';
 
 export const mdxComponents = {
   Alert,
@@ -45,5 +46,14 @@ export const mdxComponents = {
       className="px-4 py-3 text-gray-300"
       {...props}
     />
+  ),
+  a: ({ href, children, ...props }) => (
+    <Link
+      href={href || '#'}
+      className="text-purple-400 hover:text-purple-300 underline decoration-purple-400/30 hover:decoration-purple-400/60 underline-offset-4 transition-all"
+      {...props}
+    >
+      {children}
+    </Link>
   ),
 };

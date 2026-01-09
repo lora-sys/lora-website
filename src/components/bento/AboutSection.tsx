@@ -280,7 +280,7 @@ export function AboutSection() {
                   style={{
                     backgroundColor: activeTag === tag.id ? `${tag.color}30` : `${tag.color}15`,
                     color: activeTag === tag.id ? tag.color : `${tag.color}aa`,
-                    ringColor: activeTag === tag.id ? tag.color : 'transparent',
+                    borderColor: activeTag === tag.id ? tag.color : 'transparent',
                   }}
                   initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}

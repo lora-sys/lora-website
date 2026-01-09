@@ -1,77 +1,34 @@
-import fs from 'fs';
-import path from 'path';
 import { MDXContent } from '@/components/mdx/MDXContent';
-import Link from 'next/link';
 import { siteConfig } from '@/config/site-config';
+import { notFound } from 'next/navigation';
+import { getBlogPost as getBlogPostLib, getAllSlugs } from '@/lib/blog';
 
-// Get blog posts from content directory
-const contentDir = path.join(process.cwd(), 'content', 'blog');
-
-export const revalidate = 3600; // Revalidate every hour
-
+export const revalidate = 3600;
 
 export async function generateStaticParams() {
-  const files = fs.readdirSync(contentDir);
-  return files
-    .filter((file) => file.endsWith('.mdx'))
-    .map((file) => ({
-      slug: file.replace('.mdx', ''),
-    }));
+  const slugs = await getAllSlugs();
+  return slugs.map((slug) => ({
+    slug,
+  }));
 }
-
-async function getBlogPost(slug: string) {
-  const filePath = path.join(contentDir, `${slug}.mdx`);
-  const fileContent = fs.readFileSync(filePath, 'utf-8');
-
-  // Parse frontmatter with CRLF support
-  const frontmatterMatch = fileContent.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  const frontmatter: any = {};
-
-  if (frontmatterMatch) {
-    const frontmatterStr = frontmatterMatch[1];
-    frontmatterStr.split(/\r?\n/).forEach((line) => {
-      const [key, ...valueParts] = line.split(':');
-      if (key && valueParts.length > 0) {
-        const value = valueParts.join(':').trim();
-        // Remove quotes if present
-        frontmatter[key.trim()] = value.replace(/^["']|["']$/g, '');
-      }
-    });
-  }
-
-  // Remove frontmatter from content - support CRLF
-  const content = fileContent.replace(/^---\r?\n[\s\S]*?\r?\n---/, '');
-
-  return { frontmatter, content };
-}
-
-import { getCachedContent } from '@/hooks/useBlogPreloader';
 
 export default async function BlogPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  // Try server-side or cached
-  const cached = typeof window !== 'undefined' ? getCachedContent(slug) : null;
-  const { frontmatter, content } = cached
-    ? { frontmatter: { title: slug.split('-').join(' ') }, content: cached } // Minimal stub for cached
-    : await getBlogPost(slug);
+  const post = await getBlogPostLib(slug);
+
+  if (!post) {
+    notFound();
+  }
+
+  const { frontmatter, content } = post;
 
   return (
     <main className="min-h-screen bg-[#050505] text-white py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <Link
-          href="/"
-          className="inline-flex items-center text-purple-400 hover:text-purple-300 mb-8 transition-colors"
-        >
-          <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-          </svg>
-          Back to Home
-        </Link>
-
         <article>
           <header className="mb-8">
-            <div className="flex flex-wrap items-center gap-2 mb-4">
+            <div className="flex flex-wrap items-center gap-1.5 mb-4">
               <span className="px-3 py-1 text-xs font-medium bg-purple-500/20 text-purple-300 rounded-full">
                 {frontmatter.category || 'Blog'}
               </span>

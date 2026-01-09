@@ -1,7 +1,7 @@
 'use client';
 
-import { useRef, useEffect, useState, ReactNode } from 'react';
-import { useWindowVirtualizer } from '@tanstack/react-virtual';
+import { useRef, useEffect, useState, ReactNode, useMemo } from 'react';
+import { useVirtualizer } from '@tanstack/react-virtual';
 import { motion } from 'framer-motion';
 
 interface VirtualGridProps<T> {
@@ -21,44 +21,54 @@ export function VirtualGrid<T>({
   className = '',
   gap = 16
 }: VirtualGridProps<T>) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [columnCount, setColumnCount] = useState(1);
+  const parentRef = useRef<HTMLDivElement>(null);
+  const columnCountRef = useRef(1);
 
-  // Determine column count based on width
   useEffect(() => {
-    const updateColumns = () => {
-      const width = window.innerWidth;
-      if (width >= 1024) setColumnCount(columns.lg);
-      else if (width >= 768) setColumnCount(columns.md);
-      else setColumnCount(1);
-    };
+    const resizeObserver = new ResizeObserver(() => {
+      if (parentRef.current) {
+        const width = parentRef.current.clientWidth;
+        if (width >= 1024) columnCountRef.current = columns.lg;
+        else if (width >= 768) columnCountRef.current = columns.md;
+        else columnCountRef.current = 1;
+      }
+    });
 
-    updateColumns();
-    window.addEventListener('resize', updateColumns);
-    return () => window.removeEventListener('resize', updateColumns);
+    if (parentRef.current) {
+      const width = parentRef.current.clientWidth;
+      if (width >= 1024) columnCountRef.current = columns.lg;
+      else if (width >= 768) columnCountRef.current = columns.md;
+      else columnCountRef.current = 1;
+      resizeObserver.observe(parentRef.current);
+    }
+
+    return () => resizeObserver.disconnect();
   }, [columns]);
 
-  const rowCount = Math.ceil(items.length / columnCount);
+  const rowCount = Math.ceil(items.length / columnCountRef.current);
 
-  const virtualizer = useWindowVirtualizer({
+  const virtualizer = useVirtualizer({
     count: rowCount,
+    getScrollElement: () => parentRef.current,
     estimateSize: () => estimateHeight,
     overscan: 5,
-    scrollMargin: containerRef.current?.offsetTop ?? 0,
   });
 
+  const virtualItems = virtualizer.getVirtualItems();
+  const totalSize = virtualizer.getTotalSize();
+
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={parentRef} className={className} style={{ overflow: 'auto' }}>
       <div
         style={{
-          height: `${virtualizer.getTotalSize()}px`,
+          height: `${totalSize}px`,
           width: '100%',
           position: 'relative',
         }}
       >
-        {virtualizer.getVirtualItems().map((virtualRow) => {
-          const startIndex = virtualRow.index * columnCount;
-          const rowItems = items.slice(startIndex, startIndex + columnCount);
+        {virtualItems.map((virtualRow) => {
+          const startIndex = virtualRow.index * columnCountRef.current;
+          const rowItems = items.slice(startIndex, startIndex + columnCountRef.current);
 
           return (
             <div
@@ -73,17 +83,19 @@ export function VirtualGrid<T>({
               }}
             >
               <div
-                className="grid gap-4"
+                className={`grid gap-${gap > 0 ? gap / 4 : 0}`}
                 style={{
-                  gridTemplateColumns: `repeat(${columnCount}, minmax(0, 1fr))`
+                  gridTemplateColumns: `repeat(${columnCountRef.current}, minmax(0, 1fr))`,
+                  height: '100%',
                 }}
               >
                 {rowItems.map((item, colIndex) => (
                   <motion.div
                     key={startIndex + colIndex}
+                    layout
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
+                    transition={{ duration: 0.2 }}
                   >
                     {renderItem(item, startIndex + colIndex)}
                   </motion.div>

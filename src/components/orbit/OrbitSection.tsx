@@ -14,11 +14,11 @@ export function OrbitSection({ children, className = '', delay = 0, id }: OrbitS
   return (
     <motion.section
       id={id}
-      className={`preserve-3d ${className}`}
+      className={className}
       initial={{ opacity: 0, y: 50 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-100px' }}
-      transition={{ duration: 0.6, delay, ease: [0.4, 0, 0.2, 1] }}
+      transition={{ duration: 0.3, delay, ease: [0.4, 0, 0.2, 1] }} // Reduced from 0.6 to 0.3
     >
       {children}
     </motion.section>

@@ -1,13 +1,14 @@
-# 🚀 Welcome to Z.ai Code Scaffold
+# 🎨 Lora's Digital Studio
 
-A modern, production-ready web application scaffold powered by cutting-edge technologies, designed to accelerate your development with [Z.ai](https://chat.z.ai)'s AI-powered coding assistance.
+A modern digital portfolio and showcase website built with cutting-edge web technologies, featuring AI-powered capabilities and beautiful interactive UI components.
 
 ## ✨ Technology Stack
 
-This scaffold provides a robust foundation built with:
+This project is built with modern web development technologies:
 
 ### 🎯 Core Framework
 - **⚡ Next.js 15** - The React framework for production with App Router
+- **📘 React 19** - Latest React for building user interfaces
 - **📘 TypeScript 5** - Type-safe JavaScript for better developer experience
 - **🎨 Tailwind CSS 4** - Utility-first CSS framework for rapid UI development
 
@@ -15,42 +16,136 @@ This scaffold provides a robust foundation built with:
 - **🧩 shadcn/ui** - High-quality, accessible components built on Radix UI
 - **🎯 Lucide React** - Beautiful & consistent icon library
 - **🌈 Framer Motion** - Production-ready motion library for React
-- **🎨 Next Themes** - Perfect dark mode in 2 lines of code
+- **🎨 Next Themes** - Perfect dark mode support
+- **🎨 Embla Carousel** - Modern carousel component
+- **📦 Vaul** - Drawer/sheet component
+- **📝 Sonner** - Toast notification component
 
 ### 📋 Forms & Validation
 - **🎣 React Hook Form** - Performant forms with easy validation
 - **✅ Zod** - TypeScript-first schema validation
+- **📋 Input OTP** - One-time password input component
 
 ### 🔄 State Management & Data Fetching
 - **🐻 Zustand** - Simple, scalable state management
 - **🔄 TanStack Query** - Powerful data synchronization for React
-- **🌐 Fetch** - Promise-based HTTP request
-
-### 🗄️ Backend & Content
+- **🔄 TanStack Table** - Headless UI for building tables and datagrids
+- **🔄 TanStack Virtual** - Virtual scrolling for large lists
 
 ### 🎨 Advanced UI Features
-- **📊 TanStack Table** - Headless UI for building tables and datagrids
-- **🖱️ DND Kit** - Modern drag and drop toolkit for React
 - **📊 Recharts** - Redefined chart library built with React and D3
-- **🖼️ Sharp** - High performance image processing
+- **🖱️ DND Kit** - Modern drag and drop toolkit for React
+- **📋 React Resizable Panels** - Resizable panel components
+- **📅 React Day Picker** - Date picker component
+- **🌈 React Markdown** - Markdown rendering
+- **💡 React Syntax Highlighter** - Code syntax highlighting
+
+### 📦 Markdown & Content
+- **📝 MDX** - Markdown with JSX support
+- **📝 next-mdx-remote** - Remote MDX compilation
+- **📝 @mdx-js/loader** - MDX loader for Webpack
+- **📝 @mdx-js/react** - React components for MDX
+- **📝 @mdxeditor/editor** - MDX editor component
+- **💡 Highlight.js** - Syntax highlighting
+- **🔧 rehype-highlight** - Highlight code in MDX
+- **🔧 rehype-slug** - Add slugs to headings
+- **🔧 remark-gfm** - GitHub Flavored Markdown
+
+### 🗄️ Backend & Authentication
+- **🔐 NextAuth.js** - Authentication for Next.js
+- **📦 next-pwa** - Progressive Web App support
 
 ### 🌍 Internationalization & Utilities
-- **🌍 Next Intl** - Internationalization library for Next.js
-- **📅 Date-fns** - Modern JavaScript date utility library
-- **🪝 ReactUse** - Collection of essential React hooks for modern development
+- **🌍 next-intl** - Internationalization library for Next.js
+- **📅 date-fns** - Modern JavaScript date utility library
+- **🪝 @reactuses/core** - Collection of essential React hooks
 
-## 🎯 Why This Scaffold?
+### 🤖 AI & Development SDK
+- **🤖 z-ai-web-dev-sdk** - Z.ai Web Development SDK for AI capabilities
+
+### 🖼️ Image Processing
+- **🖼️ Sharp** - High performance image processing
+
+## 🎯 Why Lora's Digital Studio?
 
 - **🏎️ Fast Development** - Pre-configured tooling and best practices
 - **🎨 Beautiful UI** - Complete shadcn/ui component library with advanced interactions
 - **🔒 Type Safety** - Full TypeScript configuration with Zod validation
 - **📱 Responsive** - Mobile-first design principles with smooth animations
-- **🗄️ Database Ready** - Prisma ORM configured for rapid backend development
-- **🔐 Auth Included** - NextAuth.js for secure authentication flows
-- **📊 Data Visualization** - Charts, tables, and drag-and-drop functionality
-- **🌍 i18n Ready** - Multi-language support with Next Intl
+- **🎨 Bento Grid Layout** - Modern grid-based portfolio presentation
+- **📝 MDX Blog** - File-based blog powered by MDX
+- **🤖 AI-Powered Skills** - Integrated AI capabilities for content generation, image creation, and more
+- **🌍 i18n Ready** - Multi-language support with next-intl
 - **🚀 Production Ready** - Optimized build and deployment settings
-- **🤖 AI-Friendly** - Structured codebase perfect for AI assistance
+
+## 🤖 AI Skills
+
+This project includes a comprehensive set of AI-powered skills in the `skills/` directory:
+
+### 🎤 ASR (Speech to Text)
+- Transcribe audio files to text using AI
+- Support for various audio formats (WAV, MP3, M4A, FLAC, OGG)
+- Base64 audio processing
+- Batch transcription capabilities
+
+### 🗣️ TTS (Text to Speech)
+- Convert text to natural-sounding speech
+- Multiple voice options
+- Real-time text-to-speech generation
+
+### 💬 LLM (Large Language Model)
+- Chat completions and conversational AI
+- Multi-turn conversations with context management
+- Custom system prompts
+- Content generation, code assistance, and more
+
+### 👁️ VLM (Vision Language Model)
+- Image understanding and analysis
+- Visual question answering
+- Image description and captioning
+
+### 🎨 Image Generation
+- Create images from text descriptions
+- Multiple image sizes (1024x1024, 1344x768, 768x1344, etc.)
+- Batch image generation
+- Website asset generation
+
+### 🎬 Video Generation
+- Generate videos from text prompts
+- AI-powered video creation
+
+### 📖 Web Reader
+- Extract and analyze web content
+- Read and process web pages
+
+### 🔍 Web Search
+- Search the web programmatically
+- Real-time web data retrieval
+
+### 📄 PDF Processing
+- PDF form field detection and filling
+- PDF to image conversion
+- Bounding box validation
+- Form field information extraction
+
+### 📊 DOCX Processing
+- Create and manipulate Word documents
+- Template-based document generation
+- OOXML manipulation
+
+### 📊 PPTX Processing
+- Create PowerPoint presentations
+- HTML to PPTX conversion
+- Template-based presentation generation
+
+### 📊 XLSX Processing
+- Excel spreadsheet manipulation
+- Formula recalculation
+
+### 🎨 Canvas Design
+- Create beautiful visual art
+- Generate posters and design assets
+- Custom typography and layouts
 
 ## 🚀 Quick Start
 
@@ -66,74 +161,205 @@ bun run build
 
 # Start production server
 bun start
+
+# Run linter
+bun run lint
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see your application running.
 
-## 🤖 Powered by Z.ai
-
-This scaffold is optimized for use with [Z.ai](https://chat.z.ai) - your AI assistant for:
-
-- **💻 Code Generation** - Generate components, pages, and features instantly
-- **🎨 UI Development** - Create beautiful interfaces with AI assistance  
-- **🔧 Bug Fixing** - Identify and resolve issues with intelligent suggestions
-- **📝 Documentation** - Auto-generate comprehensive documentation
-- **🚀 Optimization** - Performance improvements and best practices
-
-Ready to build something amazing? Start chatting with Z.ai at [chat.z.ai](https://chat.z.ai) and experience the future of AI-powered development!
-
 ## 📁 Project Structure
 
 ```
-src/
-├── app/                 # Next.js App Router pages
-├── components/          # Reusable React components
-│   └── ui/             # shadcn/ui components
-├── hooks/              # Custom React hooks
-└── lib/                # Utility functions and configurations
+/
+├── content/                 # Content files
+│   └── blog/               # Blog posts in MDX format
+├── public/                 # Static assets
+│   ├── icons/             # App icons
+│   ├── logo.svg           # Site logo
+│   └── manifest.json      # PWA manifest
+├── skills/                 # AI-powered skills
+│   ├── ASR/               # Speech to text
+│   ├── LLM/               # Large language model
+│   ├── TTS/               # Text to speech
+│   ├── VLM/               # Vision language model
+│   ├── image-generation/  # AI image generation
+│   ├── video-generation/  # AI video generation
+│   ├── web-reader/        # Web content reader
+│   ├── web-search/        # Web search
+│   ├── pdf/               # PDF processing
+│   ├── docx/              # DOCX processing
+│   ├── pptx/              # PPTX processing
+│   ├── xlsx/              # XLSX processing
+│   └── canvas-design/     # Visual design
+├── src/                    # Source code
+│   ├── app/               # Next.js App Router
+│   │   ├── @modal/       # Modal routes
+│   │   ├── api/          # API routes
+│   │   ├── blog/         # Blog pages
+│   │   ├── globals.css   # Global styles
+│   │   ├── layout.tsx    # Root layout
+│   │   └── page.tsx      # Home page
+│   ├── components/       # React components
+│   │   ├── analytics/    # Analytics components
+│   │   ├── bento/       # Bento grid components
+│   │   ├── blog/        # Blog components
+│   │   ├── mdx/         # MDX components
+│   │   ├── orbit/       # Orbit animation
+│   │   ├── providers/   # Context providers
+│   │   └── ui/          # shadcn/ui components
+│   ├── config/          # Configuration files
+│   │   └── site-config.ts  # Site configuration
+│   ├── hooks/           # Custom React hooks
+│   └── lib/             # Utility functions
+├── Caddyfile            # Caddy configuration
+├── components.json      # shadcn/ui configuration
+├── next.config.ts       # Next.js configuration
+├── tailwind.config.ts   # Tailwind CSS configuration
+└── tsconfig.json        # TypeScript configuration
 ```
 
 ## 🎨 Available Features & Components
 
-This scaffold includes a comprehensive set of modern web development tools:
-
 ### 🧩 UI Components (shadcn/ui)
-- **Layout**: Card, Separator, Aspect Ratio, Resizable Panels
-- **Forms**: Input, Textarea, Select, Checkbox, Radio Group, Switch
+- **Layout**: Card, Separator, Aspect Ratio, Resizable Panels, Sheet
+- **Forms**: Input, Textarea, Select, Checkbox, Radio Group, Switch, Input OTP
 - **Feedback**: Alert, Toast (Sonner), Progress, Skeleton
 - **Navigation**: Breadcrumb, Menubar, Navigation Menu, Pagination
 - **Overlay**: Dialog, Sheet, Popover, Tooltip, Hover Card
 - **Data Display**: Badge, Avatar, Calendar
+- **Typography**: Blockquote
 
 ### 📊 Advanced Data Features
 - **Tables**: Powerful data tables with sorting, filtering, pagination (TanStack Table)
 - **Charts**: Beautiful visualizations with Recharts
 - **Forms**: Type-safe forms with React Hook Form + Zod validation
+- **Virtual Scrolling**: Efficient rendering of large lists (TanStack Virtual)
 
 ### 🎨 Interactive Features
 - **Animations**: Smooth micro-interactions with Framer Motion
 - **Drag & Drop**: Modern drag-and-drop functionality with DND Kit
 - **Theme Switching**: Built-in dark/light mode support
+- **Carousels**: Embla Carousel for image/content sliders
+- **Bento Grid**: Modern grid layout for portfolio items
+- **Orbit Animation**: Unique orbit animation component
 
 ### 🔐 Backend Integration
 - **📝 MDX Content** - File-based content management with MDX
 - **📁 File-based CMS** - Blog and content powered by MDX files
+- **🔐 Authentication** - NextAuth.js for secure authentication
 - **API Client**: HTTP requests with Fetch + TanStack Query
 - **State Management**: Simple and scalable with Zustand
 
 ### 🌍 Production Features
-- **Internationalization**: Multi-language support with Next Intl
+- **Internationalization**: Multi-language support with next-intl
 - **Image Optimization**: Automatic image processing with Sharp
 - **Type Safety**: End-to-end TypeScript with Zod validation
-- **Essential Hooks**: 100+ useful React hooks with ReactUse for common patterns
+- **PWA Support**: Progressive Web App capabilities with next-pwa
+- **Essential Hooks**: Useful React hooks with @reactuses/core
 
-## 🤝 Get Started with Z.ai
+### 🎨 Content Features
+- **Blog**: MDX-powered blog with syntax highlighting
+- **Blog Modal**: Modal-based blog reading experience
+- **MDX Components**: Custom components for MDX rendering
+- **Code Highlighting**: Syntax highlighting for code blocks
 
-1. **Clone this scaffold** to jumpstart your project
-2. **Visit [chat.z.ai](https://chat.z.ai)** to access your AI coding assistant
-3. **Start building** with intelligent code generation and assistance
-4. **Deploy with confidence** using the production-ready setup
+## 🔧 Configuration
+
+### Site Configuration
+All site configuration is centralized in `src/config/site-config.ts`, including:
+- Basic site information
+- Contact details
+- Social media links
+- Skills and experience
+- Projects and work
+- Theme colors
+- Reading list
+- Statistics
+
+### Component Configuration
+- **shadcn/ui**: Configured in `components.json`
+- **Tailwind CSS**: Configured in `tailwind.config.ts`
+- **TypeScript**: Configured in `tsconfig.json`
+- **Next.js**: Configured in `next.config.ts`
+
+## 🤖 AI Skills Usage
+
+Each skill in the `skills/` directory includes comprehensive documentation and example scripts:
+
+1. **ASR**: Transcribe audio files to text
+   ```bash
+   # Use CLI
+   z-ai asr --file ./audio.wav -o result.json
+   ```
+
+2. **LLM**: Generate text responses
+   ```bash
+   # Use CLI
+   z-ai chat --prompt "What is the capital of France?"
+   ```
+
+3. **Image Generation**: Create images from text
+   ```bash
+   # Use CLI
+   z-ai image --prompt "A beautiful landscape" --output "./image.png"
+   ```
+
+See individual `SKILL.md` files in each skill directory for detailed documentation and examples.
+
+## 🎨 Frontend Design
+
+The project includes a `frontend-design/` folder with:
+- **Templates**: Global CSS styles and Tailwind configuration
+- **Examples**: CSS and TypeScript examples for common patterns
+- **Optimization**: Performance optimization guidelines
+
+## 📝 Development Scripts
+
+```bash
+# Development
+bun run dev              # Start development server on port 3000
+
+# Build & Production
+bun run build            # Build for production
+bun start               # Start production server
+
+# Code Quality
+bun run lint            # Run ESLint
+
+# Database (Prisma)
+bun run db:push         # Push schema changes
+bun run db:generate     # Generate Prisma client
+bun run db:migrate      # Run migrations
+bun run db:reset        # Reset database
+```
+
+## 🌟 Key Features
+
+- **🎨 Modern Design**: Sleek, modern UI with dark mode support
+- **📱 Responsive**: Mobile-first responsive design
+- **⚡ Fast Performance**: Optimized with Next.js 15 and React 19
+- **🔒 Type Safe**: Full TypeScript coverage
+- **🎯 Component Library**: Comprehensive shadcn/ui components
+- **📝 MDX Blog**: Blog with rich content and syntax highlighting
+- **🤖 AI Integration**: Multiple AI-powered capabilities
+- **🔐 Authentication**: NextAuth.js for secure auth
+- **🌍 i18n Support**: Multi-language ready
+- **📊 Analytics**: Web vitals tracking
+- **🔔 Notifications**: Toast notifications with Sonner
+- **🎨 Animations**: Smooth animations with Framer Motion
+- **🎨 Bento Grid**: Modern portfolio grid layout
+- **🌊 Orbit Animation**: Unique orbital animation
+- **💎 Glass Effect**: Beautiful glassmorphism UI elements
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ---
 
-Built with ❤️ for the developer community. Supercharged by [Z.ai](https://chat.z.ai) 🚀
+Built with ❤️ for the digital creator community. Showcasing the power of modern web technologies and AI integration.

@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import Link from 'next/link';
 
 const navLinks = [
     { name: 'Hero', href: '#hero' },
     { name: 'About', href: '#about' },
     { name: 'Work', href: '#work' },
     { name: 'Skills', href: '#skills' },
-    { name: 'Life', href: '#life' },
+    { name: 'Preferences', href: '#preferences' },
     { name: 'Contact', href: '#contact' },
 ];
 
@@ -49,14 +50,15 @@ export function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
-                <motion.button
-                    onClick={() => scrollToSection('#hero')}
-                    className="text-2xl font-bold font-mono tracking-tighter text-white z-[110]"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    Lora<span className="text-purple-500">.</span>
-                </motion.button>
+                <Link href="/">
+                    <motion.button
+                        className="text-2xl font-bold font-mono tracking-tighter text-white z-[110]"
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        Lora<span className="text-purple-500">.</span>
+                    </motion.button>
+                </Link>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-1 glass-effect px-2 py-1.5 rounded-full border border-white/10 backdrop-blur-xl">

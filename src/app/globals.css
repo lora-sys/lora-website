@@ -129,6 +129,10 @@
   transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
 }
 
+.book-mode-card.glass-card-3d:hover {
+  transform: rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg)) scale(var(--scale, 1));
+}
+
 .glass-card-content {
   transform: translateZ(50px);
 }
@@ -237,6 +241,71 @@ code {
 
 .hljs-class {
   color: #a78bfa;
+}
+
+/* Reduced Motion Support - WCAG 2.1 AA Compliance */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Disable 3D transforms */
+  .glass-card-3d,
+  .orbit-container {
+    transform: none !important;
+  }
+
+  /* Disable hover effects */
+  .glass-card-3d:hover {
+    transform: none !important;
+  }
+}
+
+/* Focus Visible Styles for Keyboard Navigation */
+*:focus-visible {
+  outline: 2px solid var(--lora-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--lora-accent);
+  outline-offset: 2px;
+}
+
+/* Skip Link for Accessibility */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--lora-accent);
+  color: white;
+  padding: 8px 16px;
+  text-decoration: none;
+  border-radius: 0 0 4px 0;
+  z-index: 9999;
+  font-weight: 600;
+  transition: top 0.2s;
+}
+
+.skip-link:focus {
+  top: 0;
+  outline: 2px solid white;
+  outline-offset: 2px;
+}
+
+/* Improve will-change usage */
+@media (hover: hover) and (pointer: fine) {
+  .glass-card-3d:hover {
+    will-change: transform;
+  }
 }
 
 

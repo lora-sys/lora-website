@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { WebVitals } from "@/components/analytics/WebVitals";
 import { AnimationProvider } from "@/components/providers/AnimationProvider";
 import { Navbar } from "@/components/ui/Navbar";
+import { SkipLink } from "@/components/ui/SkipLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,13 +36,6 @@ export const metadata: Metadata = {
     icon: "/icons/icon-192x192.png",
     apple: "/icons/icon-512x512.png",
   },
-  // @ts-ignore - themeColor and viewport moved to exports in newer Next.js but kept for compatibility
-  themeColor: "#050505",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-  },
   twitter: {
     card: "summary_large_image",
     title: "Lora's Digital Studio",
@@ -49,12 +43,17 @@ export const metadata: Metadata = {
   },
 };
 
+export const viewport = {
+  width: "device-width" as const,
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#050505",
+};
+
 export default function RootLayout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
@@ -63,10 +62,10 @@ export default function RootLayout({
         style={{ backgroundColor: '#050505', color: '#FFFFFF' }}
         suppressHydrationWarning={true}
       >
+        <SkipLink />
         <AnimationProvider>
           <Navbar />
           {children}
-          {modal}
           <Toaster />
           <WebVitals />
         </AnimationProvider>

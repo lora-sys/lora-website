@@ -8,7 +8,7 @@ import { GlassCard } from '@/components/bento/GlassCard';
 import { VirtualGrid } from '@/components/bento/VirtualScroll';
 import { ContactForm } from '@/components/bento/ContactForm';
 import { AboutSection } from '@/components/bento/AboutSection';
-import { LifeSection } from '@/components/bento/LifeSection';
+import { PreferencesSection } from '@/components/bento/PreferencesSection';
 import { SkillsSection } from '@/components/bento/SkillsSection';
 import { Typewriter } from '@/components/ui/Typewriter';
 import { ParticleBackground } from '@/components/ui/ParticleBackground';
@@ -30,11 +30,9 @@ import {
 } from 'lucide-react';
 
 import { AnimationProvider } from '@/components/providers/AnimationProvider';
-import { useBlogPreloader } from '@/hooks/useBlogPreloader';
 
 export default function HomePage() {
   const blogSlugs = useMemo(() => siteConfig.projects.filter(p => p.blogSlug).map(p => p.blogSlug!), []);
-  useBlogPreloader(blogSlugs);
 
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -160,11 +158,11 @@ export default function HomePage() {
       <ParticleBackground />
       <main className="min-h-screen">
         {/* Hero Section */}
-        <OrbitSection id="hero" className="min-h-screen flex flex-col justify-center items-center text-center px-4 -mt-20">
+        <OrbitSection id="hero" className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+            transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
           >
             <motion.h1
               className="text-6xl md:text-8xl lg:text-9xl font-bold mb-4 tracking-tight font-mono"
@@ -175,21 +173,21 @@ export default function HomePage() {
                 backgroundClip: 'text'
               }}
             >
-              <Typewriter text={siteConfig.name} duration={1.5} loop={true} />
+              <Typewriter text={siteConfig.name} duration={0.8} loop={true} />
             </motion.h1>
             <motion.p
               className="text-xl md:text-2xl text-gray-300 mb-8 font-light"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
+              transition={{ delay: 0.2, duration: 0.4 }}
             >
-              <Typewriter text={siteConfig.tagline} delay={1} duration={1.5} loop={true} />
+              <Typewriter text={siteConfig.tagline} delay={0.5} duration={0.8} loop={true} />
             </motion.p>
             <motion.p
               className="text-lg text-gray-400 max-w-2xl mb-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.8 }}
+              transition={{ delay: 0.3, duration: 0.4 }}
             >
               {siteConfig.description}
             </motion.p>
@@ -199,7 +197,7 @@ export default function HomePage() {
               className="flex flex-wrap justify-center gap-6 mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.6 }}
+              transition={{ delay: 0.4, duration: 0.3 }}
             >
               {siteConfig.contact.available && (
                 <div className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/30 rounded-full text-green-400 text-sm">
@@ -224,7 +222,7 @@ export default function HomePage() {
               className="flex justify-center gap-4 mb-16"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              transition={{ delay: 0.5, duration: 0.3 }}
             >
               {siteConfig.socialIcons.map((social, index) => (
                 <a
@@ -245,7 +243,7 @@ export default function HomePage() {
               className="flex flex-wrap justify-center gap-8"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
+              transition={{ delay: 0.6, duration: 0.3 }}
             >
               {[
                 { value: siteConfig.stats.projects, label: 'Projects' },
@@ -274,7 +272,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.3 }}
           >
             Featured Work
           </motion.h2>
@@ -402,9 +400,9 @@ export default function HomePage() {
           <SkillsSection />
         </div>
 
-        {/* Life Section */}
-        <div id="life">
-          <LifeSection />
+        {/* Preferences Section */}
+        <div id="preferences">
+          <PreferencesSection />
         </div>
 
         {/* Contact Section */}
