@@ -212,34 +212,45 @@ code {
 }
 
 .hljs-keyword,
-.hljs-built_in {
+.hljs-built_in,
+.language-keyword,
+.language-built_in {
   color: #c084fc;
 }
 
 .hljs-string,
-.hljs-template-string {
+.hljs-template-string,
+.language-string,
+.language-template-string {
   color: #fbbf24;
 }
 
-.hljs-comment {
+.hljs-comment,
+.language-comment {
   color: #6b7280;
 }
 
 .hljs-function,
-.hljs-title {
+.hljs-title,
+.language-function,
+.language-title {
   color: #60a5fa;
 }
 
 .hljs-number,
-.hljs-literal {
+.hljs-literal,
+.language-number,
+.language-literal {
   color: #34d399;
 }
 
-.hljs-operator {
+.hljs-operator,
+.language-operator {
   color: #f472b6;
 }
 
-.hljs-class {
+.hljs-class,
+.language-class {
   color: #a78bfa;
 }
 

@@ -17,15 +17,19 @@ export const mdxComponents = {
   blockquote: ({ ...props }) => (
     <blockquote className="my-6 border-l-4 border-white/20 pl-4 py-1 italic text-gray-400 bg-white/5 rounded-r" {...props} />
   ),
-  code: ({ ...props }) => (
-    <code className="rounded bg-white/10 px-1.5 py-0.5 font-mono text-sm font-medium text-purple-300"
+  code: ({ className, ...props }) => (
+    <code
+      className={`rounded bg-white/10 px-1.5 py-0.5 font-mono text-sm font-medium ${className || ''}`}
       style={{ fontFamily: 'var(--font-jetbrains-mono)' }}
-      {...props} />
+      {...props}
+    />
   ),
-  pre: ({ ...props }) => (
-    <pre className="my-6 overflow-x-auto rounded-lg bg-[#0d1117] p-4 font-mono text-sm leading-6 border border-white/10"
+  pre: ({ className, ...props }) => (
+    <pre
+      className={`my-6 overflow-x-auto rounded-lg bg-[#0d1117] p-4 font-mono text-sm leading-6 border border-white/10 ${className || ''}`}
       style={{ fontFamily: 'var(--font-jetbrains-mono)' }}
-      {...props} />
+      {...props}
+    />
   ),
   table: ({ ...props }) => (
     <div className="my-6 w-full overflow-y-auto rounded-lg border border-white/10">
