@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import AnimationManager from '@/animations/core/AnimationManager';
 
@@ -13,16 +13,6 @@ interface OrbitSectionProps {
 export function OrbitSection({ children, className = '', id }: OrbitSectionProps) {
   const orbitRef = useRef<HTMLDivElement>(null);
   const manager = AnimationManager.getInstance();
-  const [particles, setParticles] = useState<Array<{top: number; left: number}>>([]);
-  
-  useEffect(() => {
-    setParticles(
-      [...Array(8)].map(() => ({
-        top: 10 + Math.random() * 80,
-        left: 10 + Math.random() * 80,
-      }))
-    );
-  }, []);
   
   useEffect(() => {
     if (!orbitRef.current) return;
@@ -48,7 +38,16 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
       delay: 0.1,
     });
     
-    const particlesAnim = gsap.to('.orbit-particles', {
+    const planets = gsap.to('.orbit-planet', {
+      y: '-=10',
+      yoyo: true,
+      repeat: -1,
+      duration: 2,
+      ease: 'sine.inOut',
+      delay: 0.2,
+    });
+    
+    const particles = gsap.to('.orbit-particles', {
       opacity: 0.6,
       yoyo: true,
       repeat: -1,
@@ -59,7 +58,8 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
     
     orbitTimeline.add(outerOrbit, 0);
     orbitTimeline.add(innerOrbit, 0);
-    orbitTimeline.add(particlesAnim, 0);
+    orbitTimeline.add(planets, 0);
+    orbitTimeline.add(particles, 0);
     
     gsap.set(['#orbit-outer', '#orbit-inner'], {
       transformOrigin: 'center center',
@@ -72,16 +72,7 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
       manager.kill('orbit');
     };
   }, []);
-
-  useEffect(() => {
-    setParticles(
-      [...Array(8)].map(() => ({
-        top: 10 + Math.random() * 80,
-        left: 10 + Math.random() * 80,
-      }))
-    );
-  }, []);
-
+  
   return (
     <section 
       id={id}
@@ -94,7 +85,7 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
     >
       <div 
         id="orbit-outer"
-        className="orbit-layer-outer absolute inset-0 border-2 border-white/10 rounded-full pointer-events-none"
+        className="orbit-layer-outer absolute inset-0 border-2 border-white/10 rounded-full"
         style={{
           width: '70%',
           height: '70%',
@@ -105,7 +96,7 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
       
       <div 
         id="orbit-inner"
-        className="orbit-layer-inner absolute inset-0 border border-purple-500/30 rounded-full pointer-events-none"
+        className="orbit-layer-inner absolute inset-0 border border-purple-500/30 rounded-full"
         style={{
           width: '40%',
           height: '40%',
@@ -122,13 +113,13 @@ export function OrbitSection({ children, className = '', id }: OrbitSectionProps
         id="orbit-particles"
         className="orbit-particles absolute inset-0 pointer-events-none"
       >
-        {particles.map((pos, i) => (
+        {[...Array(8)].map((_, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 rounded-full bg-white/20"
             style={{
-              top: `${pos.top}%`,
-              left: `${pos.left}%`,
+              top: `${10 + Math.random() * 80}%`,
+              left: `${10 + Math.random() * 80}%`,
               opacity: 0.6,
             }}
           />

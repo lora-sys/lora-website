@@ -30,6 +30,8 @@ import {
 } from 'lucide-react';
 
 import { AnimationProvider } from '@/components/providers/AnimationProvider';
+import { PageLoadTimeline } from '@/animations/components/PageLoadTimeline';
+import { ScrollTriggerBatchEntrance } from '@/animations/components/BatchEntrance';
 
 export default function HomePage() {
   const blogSlugs = useMemo(() => siteConfig.projects.filter(p => p.blogSlug).map(p => p.blogSlug!), []);
@@ -87,7 +89,7 @@ export default function HomePage() {
   // Render project card
   const renderProjectCard = useCallback((project: Project, index: number) => (
     <BentoItem key={project.id} size={project.size}>
-      <GlassCard
+      <GlassCard className="project-card"
         enable3D={true}
         onClick={project.link ? () => {
           if (project.link?.startsWith('http')) {
@@ -156,7 +158,8 @@ export default function HomePage() {
   return (
     <OrbitContainer>
       <ParticleBackground />
-      <main className="min-h-screen">
+      <PageLoadTimeline>
+        <main className="min-h-screen">
         {/* Hero Section */}
         <OrbitSection id="hero" className="min-h-screen flex flex-col justify-center items-center text-center px-4 pt-20">
           <motion.div
@@ -387,12 +390,14 @@ export default function HomePage() {
             )}
           </motion.div>
 
-          {/* Virtual Grid */}
-          <VirtualGrid
-            items={filteredProjects}
-            renderItem={renderProjectCard}
-            estimateHeight={450}
-          />
+          {/* Virtual Grid with Batch Entrance */}
+          <ScrollTriggerBatchEntrance>
+            <VirtualGrid
+              items={filteredProjects}
+              renderItem={renderProjectCard}
+              estimateHeight={450}
+            />
+          </ScrollTriggerBatchEntrance>
         </OrbitSection>
 
         {/* Skills Section */}
@@ -434,6 +439,7 @@ export default function HomePage() {
           </p>
         </footer>
       </main>
+      </PageLoadTimeline>
     </OrbitContainer>
   );
 }
