@@ -32,6 +32,9 @@ import {
 import { AnimationProvider } from '@/components/providers/AnimationProvider';
 import { PageLoadTimeline } from '@/animations/components/PageLoadTimeline';
 import { ScrollTriggerBatchEntrance } from '@/animations/components/BatchEntrance';
+import { SpringHover } from '@/animations/components/SpringHover';
+import { ElasticReveal } from '@/animations/components/ElasticReveal';
+import type { HoverIntensity } from '@/animations/physics/physics-presets';
 
 export default function HomePage() {
   const blogSlugs = useMemo(() => siteConfig.projects.filter(p => p.blogSlug).map(p => p.blogSlug!), []);
@@ -89,58 +92,60 @@ export default function HomePage() {
   // Render project card
   const renderProjectCard = useCallback((project: Project, index: number) => (
     <BentoItem key={project.id} size={project.size}>
-      <GlassCard className="project-card"
-        enable3D={true}
-        onClick={project.link ? () => {
-          if (project.link?.startsWith('http')) {
-            window.open(project.link, '_blank');
-          } else if (project.link?.startsWith('#')) {
-            const element = document.querySelector(project.link);
-            element?.scrollIntoView({ behavior: 'smooth' });
-          }
-        } : undefined}
-      >
-        <div className="h-full flex flex-col">
-          <div className="flex items-center gap-2 mb-3 flex-wrap">
-            <Badge variant="outline" className="text-xs bg-purple-500/20 text-purple-300 border-purple-500/30">
-              {project.category}
-            </Badge>
-            {project.date && (
-              <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Calendar className="w-3 h-3" />
-                {project.date}
-              </div>
-            )}
-            {project.tags.slice(0, 3).map((tag, tagIndex) => (
-              <Badge key={tagIndex} className="text-xs bg-white/10 hover:bg-white/20 border-white/20">
-                {tag}
+      <SpringHover intensity="subtle">
+        <GlassCard className="project-card"
+          enable3D={true}
+          onClick={project.link ? () => {
+            if (project.link?.startsWith('http')) {
+              window.open(project.link, '_blank');
+            } else if (project.link?.startsWith('#')) {
+              const element = document.querySelector(project.link);
+              element?.scrollIntoView({ behavior: 'smooth' });
+            }
+          } : undefined}
+        >
+          <div className="h-full flex flex-col">
+            <div className="flex items-center gap-2 mb-3 flex-wrap">
+              <Badge variant="outline" className="text-xs bg-purple-500/20 text-purple-300 border-purple-500/30">
+                {project.category}
               </Badge>
-            ))}
+              {project.date && (
+                <div className="flex items-center gap-1 text-xs text-gray-500">
+                  <Calendar className="w-3 h-3" />
+                  {project.date}
+                </div>
+              )}
+              {project.tags.slice(0, 3).map((tag, tagIndex) => (
+                <Badge key={tagIndex} className="text-xs bg-white/10 hover:bg-white/20 border-white/20">
+                  {tag}
+                </Badge>
+              ))}
+            </div>
+
+            <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">
+              {project.title}
+            </h3>
+
+            <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-4 flex-grow">
+              {project.description}
+            </p>
+
+            <div className="pt-4 flex items-center justify-between">
+              {project.blogSlug ? (
+                <Link
+                  href={`/blog/${project.blogSlug}`}
+                  className="flex items-center text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors"
+                >
+                  <span>Read article</span>
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </Link>
+              ) : (
+                <span className="text-gray-500 text-sm">View project</span>
+              )}
+            </div>
           </div>
-
-          <h3 className="text-xl md:text-2xl font-bold mb-3 text-white">
-            {project.title}
-          </h3>
-
-          <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-4 flex-grow">
-            {project.description}
-          </p>
-
-          <div className="pt-4 flex items-center justify-between">
-            {project.blogSlug ? (
-              <Link
-                href={`/blog/${project.blogSlug}`}
-                className="flex items-center text-purple-400 text-sm font-medium hover:text-purple-300 transition-colors"
-              >
-                <span>Read article</span>
-                <ExternalLink className="w-4 h-4 ml-2" />
-              </Link>
-            ) : (
-              <span className="text-gray-500 text-sm">View project</span>
-            )}
-          </div>
-        </div>
-      </GlassCard>
+        </GlassCard>
+      </SpringHover>
     </BentoItem>
   ), []);
 
@@ -270,15 +275,11 @@ export default function HomePage() {
 
         {/* Featured Work Section - Using Incremental Load */}
         <OrbitSection id="work" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-          <motion.h2
-            className="text-4xl md:text-5xl font-bold mb-8 text-center"
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-          >
-            Featured Work
-          </motion.h2>
+          <ElasticReveal direction="up" mode="smooth">
+            <h2 className="text-4xl md:text-5xl font-bold mb-8 text-center">
+              Featured Work
+            </h2>
+          </ElasticReveal>
 
           {/* Search Bar */}
           <div className="relative mb-6">

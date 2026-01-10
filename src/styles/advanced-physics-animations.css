@@ -1,0 +1,256 @@
+/* Hover Card States */
+.hover-card {
+  position: relative;
+  transition: transform 0.3s ease-out;
+  transform-style: preserve-3d;
+}
+
+.hover-card.is-animating {
+  pointer-events: none;
+}
+
+.hover-card.has-tilt {
+  perspective: 1000px;
+}
+
+.hover-card.has-tilt .hover-card-content {
+  transform: translateZ(20px);
+  transition: transform 0.1s ease-out;
+}
+
+.hover-card.has-glow::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.3), rgba(59, 130, 246, 0.3));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+  filter: blur(8px);
+}
+
+.hover-card.has-glow.is-animating::before {
+  opacity: 1;
+}
+
+.hover-card.has-shadow {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.hover-card.has-shadow.is-animating {
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.3), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.hover-card.has-border {
+  border: 2px solid rgba(168, 85, 247, 0.5);
+  transition: border-color 0.3s ease-out;
+}
+
+.hover-card.has-border.is-animating {
+  border-color: #A855F7;
+}
+
+/* Magnetic Card States */
+.magnetic-card {
+  position: relative;
+  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  transform-style: preserve-3d;
+}
+
+.magnetic-card.magnetic-active {
+  box-shadow: 0 8px 24px rgba(168, 85, 247, 0.4), 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.magnetic-card.magnetic-active::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #A855F7, #3B82F6);
+  z-index: -1;
+  opacity: 0.8;
+}
+
+.magnetic-card.magnetic-hovered {
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.2);
+}
+
+.magnetic-card.magnetic-touching {
+  transform: scale(1.05);
+  transition: transform 0.1s ease-out;
+}
+
+/* Progressive Reveal States */
+.progressive-reveal {
+  overflow: hidden;
+}
+
+.progressive-reveal.is-animating {
+  pointer-events: none;
+}
+
+.progressive-reveal > * {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.progressive-reveal.was-revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.progressive-reveal.reveal-mode-elastic > * {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.progressive-reveal.reveal-mode-smooth > * {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressive-reveal.reveal-mode-fade > * {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+/* Progressive Reveal Cascade */
+.progressive-reveal[data-reveal-cascade="true"] > * {
+  transition-delay: var(--reveal-stagger, 0.1s);
+}
+
+/* Touch feedback for all cards */
+.hover-card:active,
+.magnetic-card:active {
+  animation: cardPulse 0.3s ease-out;
+}
+
+@keyframes cardPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+/* Loading state */
+.hover-card.is-loading::after,
+.magnetic-card.is-loading::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Success state */
+.magnetic-card.success {
+  border-color: #22C55E !important;
+}
+
+.magnetic-card.success::before {
+  background: linear-gradient(135deg, #22C55E, #16A34A);
+  opacity: 0.8;
+}
+
+/* Edge Behavior */
+.magnetic-card[data-edge-behavior="repel"] {
+  z-index: 10;
+}
+
+.magnetic-card[data-edge-behavior="attract"] {
+  z-index: 20;
+}
+
+/* Proximity indicator */
+.magnetic-card[data-proximity="true"]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 2px solid transparent;
+  transition: border-color 0.2s ease-out;
+  pointer-events: none;
+}
+
+.magnetic-card[data-proximity="true"]:hover::after {
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+/* Disabled state */
+.hover-card[disabled],
+.magnetic-card[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hover-card.has-tilt .hover-card-content {
+    transform: translateZ(10px);
+  }
+
+  .magnetic-card {
+    transition: transform 0.2s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hover-card,
+  .magnetic-card,
+  .progressive-reveal {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .hover-card::before,
+  .magnetic-card::before,
+  .magnetic-card::after {
+    display: none;
+  }
+}
+
+/* Focus visible states */
+.magnetic-card:focus-visible {
+  outline: 3px solid #A855F7;
+  outline-offset: 4px;
+  border-radius: 4px;
+  z-index: 30;
+}
+
+/* Hover intensity for cards */
+[data-hover-intensity="subtle"] {
+  --card-scale: 1.01;
+}
+
+[data-hover-intensity="medium"] {
+  --card-scale: 1.02;
+}
+
+[data-hover-intensity="strong"] {
+  --card-scale: 1.04;
+}
+
+[data-hover-intensity="aggressive"] {
+  --card-scale: 1.06;
+}
+
+/* Magnetic strength for cards */
+[data-magnetic-strength="subtle"] {
+  --card-magnetic: 0.2;
+}
+
+[data-magnetic-strength="medium"] {
+  --card-magnetic: 0.4;
+}
+
+[data-magnetic-strength="strong"] {
+  --card-magnetic: 0.6;
+}

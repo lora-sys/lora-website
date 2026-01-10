@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "@/styles/physics-animations.css";
 import { Toaster } from "@/components/ui/toaster";
 import { WebVitals } from "@/components/analytics/WebVitals";
 import { AnimationProvider } from "@/components/providers/AnimationProvider";

@@ -1,0 +1,270 @@
+/* Physics Animations - State Feedback Styles */
+
+/* Spring Hover States */
+.spring-hover {
+  touch-action: none;
+  transition: transform 0.3s ease-out;
+}
+
+.spring-hover.is-animating {
+  pointer-events: none;
+}
+
+.spring-hover.is-hovered {
+  position: relative;
+}
+
+.spring-hover.is-hovered::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 0 20px 5px rgba(168, 85, 247, 0.15);
+  transition: box-shadow 0.3s ease-out;
+}
+
+.spring-hover.is-hovered:active::after {
+  box-shadow: 0 0 10px 3px rgba(168, 85, 247, 0.3);
+}
+
+/* Magnetic Link States */
+.magnetic-link {
+  position: relative;
+  display: inline-block;
+  transition: color 0.2s ease-out, transform 0.3s ease-out;
+}
+
+.magnetic-link.magnetic-active {
+  opacity: 0.8;
+}
+
+.magnetic-link.magnetic-active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #A855F7, transparent);
+  border-radius: 2px;
+}
+
+.magnetic-link.magnetic-hovered {
+  transform: scale(1.05);
+}
+
+.magnetic-link.is-touching {
+  transform: scale(1.08);
+  transition: transform 0.1s ease-out;
+}
+
+.magnetic-link[data-magnetic-strength="subtle"] {
+  cursor: default;
+}
+
+.magnetic-link[data-magnetic-strength="medium"] {
+  cursor: pointer;
+}
+
+.magnetic-link[data-magnetic-strength="strong"] {
+  cursor: pointer;
+}
+
+/* Elastic Reveal States */
+.elastic-reveal {
+  overflow: hidden;
+}
+
+.elastic-reveal.is-animating {
+  pointer-events: none;
+}
+
+.elastic-reveal.was-revealed {
+  pointer-events: auto;
+}
+
+.elastic-reveal.reveal-mode-elastic {
+  transition-timing-function: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.elastic-reveal.reveal-mode-smooth {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.elastic-reveal.reveal-mode-fade {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.elastic-reveal.reveal-up {
+  transform-origin: bottom center;
+}
+
+.elastic-reveal.reveal-down {
+  transform-origin: top center;
+}
+
+.elastic-reveal.reveal-left {
+  transform-origin: right center;
+}
+
+.elastic-reveal.reveal-right {
+  transform-origin: left center;
+}
+
+/* Animation Status Indicators */
+.is-animating {
+  cursor: wait;
+}
+
+.idle {
+  cursor: default;
+}
+
+/* Hover Intensity */
+[data-hover-intensity="subtle"] {
+  --hover-scale: 1.01;
+  --hover-duration: 0.3s;
+}
+
+[data-hover-intensity="medium"] {
+  --hover-scale: 1.02;
+  --hover-duration: 0.4s;
+}
+
+[data-hover-intensity="strong"] {
+  --hover-scale: 1.04;
+  --hover-duration: 0.5s;
+}
+
+[data-hover-intensity="aggressive"] {
+  --hover-scale: 1.06;
+  --hover-duration: 0.6s;
+}
+
+/* Magnetic Strength */
+[data-magnetic-strength="subtle"] {
+  --magnetic-strength: 0.2;
+  --magnetic-duration: 0.5s;
+}
+
+[data-magnetic-strength="medium"] {
+  --magnetic-strength: 0.4;
+  --magnetic-duration: 0.5s;
+}
+
+[data-magnetic-strength="strong"] {
+  --magnetic-strength: 0.6;
+  --magnetic-duration: 0.6s;
+}
+
+/* Progress indicator for animations */
+@keyframes revealProgress {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.elastic-reveal[data-reveal-once="true"] {
+  animation: revealProgress 0.6s ease-out forwards;
+}
+
+/* Touch feedback animations */
+@keyframes touchPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.spring-hover:active {
+  animation: touchPulse 0.3s ease-out;
+}
+
+/* Loading state for animations */
+.is-loading {
+  position: relative;
+}
+
+.is-loading::after {
+  content: '';
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: translateY(-50%) rotate(360deg);
+  }
+}
+
+/* Responsive feedback classes */
+@media (max-width: 768px) {
+  .spring-hover {
+    --hover-scale: calc(var(--hover-scale) * 0.8);
+    --hover-duration: calc(var(--hover-duration) * 0.7);
+  }
+
+  .magnetic-link {
+    --magnetic-strength: calc(var(--magnetic-strength) * 0.6);
+  }
+
+  .elastic-reveal {
+    --reveal-offset-y: 30px;
+    --reveal-offset-x: 30px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spring-hover,
+  .magnetic-link,
+  .elastic-reveal {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .spring-hover.is-hovered::after,
+  .magnetic-link.magnetic-active::after {
+    display: none;
+  }
+}
+
+/* Focus visible states */
+.magnetic-link:focus-visible {
+  outline: 2px solid #A855F7;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Disabled states */
+.magnetic-link[aria-disabled="true"],
+.spring-hover[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Success states */
+.magnetic-link.success {
+  color: #22C55E !important;
+}
+
+.magnetic-link.success::after {
+  background: #22C55E;
+  border-color: #22C55E;
+}

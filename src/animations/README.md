@@ -1,6 +1,6 @@
 # GSAP Animation Library
 
-Complete animation library with 20 components across 3 phases, built with GSAP for high performance and "克制优雅" (Restrained Elegance) animation style.
+Complete animation library with 23 components across 3 phases, built with GSAP for high performance and "克制优雅" (Restrained Elegance) animation style.
 
 ## Installation
 
@@ -61,6 +61,40 @@ import { ScrollTriggerBatchEntrance } from '@/animations/components/BatchEntranc
   <div className="card">Card 2</div>
   <div className="card">Card 3</div>
 </ScrollTriggerBatchEntrance>
+```
+
+### SpringHover
+Elastic hover effect with spring physics.
+
+```tsx
+import { SpringHover } from '@/animations/components/SpringHover';
+
+<SpringHover hoverScale={1.02}>
+  <div className="card">Hover me</div>
+</SpringHover>
+```
+
+### MagneticLink
+Magnetic attraction effect for links.
+
+```tsx
+import { MagneticLink } from '@/animations/components/MagneticLink';
+
+<MagneticLink href="#about" strength={0.4}>
+  About
+</MagneticLink>
+```
+
+### ElasticReveal
+Scroll-triggered elastic reveal animation.
+
+```tsx
+import { ElasticReveal } from '@/animations/components/ElasticReveal';
+
+<ElasticReveal direction="up">
+  <h2>Section Title</h2>
+  <p>Content that reveals with elastic bounce</p>
+</ElasticReveal>
 ```
 
 ## Phase 2: Enhanced Animations

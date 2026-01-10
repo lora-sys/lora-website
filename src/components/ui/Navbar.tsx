@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import { MagneticLink } from '@/animations/components/MagneticLink';
+import type { MagneticStrength } from '@/animations/physics/physics-presets';
 
 const navLinks = [
     { name: 'Hero', href: '#hero' },
@@ -50,7 +52,7 @@ export function Navbar() {
         >
             <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
                 {/* Logo */}
-                <Link href="/">
+                <MagneticLink href="/" strength="subtle">
                     <motion.button
                         className="text-2xl font-bold font-mono tracking-tighter text-white z-[110]"
                         whileHover={{ scale: 1.05 }}
@@ -58,18 +60,19 @@ export function Navbar() {
                     >
                         Lora<span className="text-purple-500">.</span>
                     </motion.button>
-                </Link>
+                </MagneticLink>
 
                 {/* Desktop Navigation */}
                 <div className="hidden md:flex items-center gap-1 glass-effect px-2 py-1.5 rounded-full border border-white/10 backdrop-blur-xl">
                     {navLinks.map((link) => (
-                        <button
+                        <MagneticLink
                             key={link.name}
-                            onClick={() => scrollToSection(link.href)}
+                            href={link.href}
+                            strength="medium"
                             className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white transition-colors rounded-full hover:bg-white/5"
                         >
                             {link.name}
-                        </button>
+                        </MagneticLink>
                     ))}
                 </div>
 
