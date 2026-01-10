@@ -6,6 +6,8 @@ import { WebVitals } from "@/components/analytics/WebVitals";
 import { AnimationProvider } from "@/components/providers/AnimationProvider";
 import { Navbar } from "@/components/ui/Navbar";
 import { SkipLink } from "@/components/ui/SkipLink";
+import { AnimationDashboard } from "@/animations/components/AnimationDashboard";
+import { RouteTransitionProvider } from "@/animations/components/RouteTransition";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -64,10 +66,13 @@ export default function RootLayout({
       >
         <SkipLink />
         <AnimationProvider>
-          <Navbar />
-          {children}
+          <RouteTransitionProvider>
+            <Navbar />
+            {children}
+          </RouteTransitionProvider>
           <Toaster />
           <WebVitals />
+          <AnimationDashboard />
         </AnimationProvider>
       </body>
     </html>
