@@ -58,8 +58,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body
+    <html lang="en" suppressHydrationWarning data-scroll-behavior="smooth">
+       <body
         className={`${geistSans.variable} ${jetbrainsMono.variable} antialiased`}
         style={{ backgroundColor: '#050505', color: '#FFFFFF' }}
         suppressHydrationWarning={true}
