@@ -33,6 +33,16 @@ export default function Home() {
             </a>{" "}
             center.
           </p>
+          // 测试主色
+          <button className="bg-primary text-primary-foreground">
+            科技蓝按钮
+          </button>
+          // 测试强调色
+          <a href="#" className="text-accent hover:bg-accent">
+            链接
+          </a>
+          // 测试卡片
+          <div className="card bg-card text-card-foreground">卡片内容</div>
         </div>
         <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
