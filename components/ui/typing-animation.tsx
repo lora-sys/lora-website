@@ -39,9 +39,9 @@ export function TypingAnimation({
   cursorStyle = "line",
   ...props
 }: TypingAnimationProps) {
-  const MotionComponent = motion.create(Component, {
+  const MotionComponent = useMemo(() => motion.create(Component, {
     forwardMotionProps: true,
-  })
+  }), [Component])
 
   const [displayedText, setDisplayedText] = useState<string>("")
   const [currentWordIndex, setCurrentWordIndex] = useState(0)

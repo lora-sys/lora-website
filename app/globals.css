@@ -1,5 +1,6 @@
-@import '@fontsource-variable/geist-mono';
-@import '@fontsource-variable/geist';
+
+@import "@fontsource-variable/geist";
+@import "@fontsource-variable/geist-mono";
 
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -68,39 +69,45 @@
   from {
     transform: translateY(0);}
   to {
-    transform: translateY(calc(-100% - var(--gap)));}}}
+    transform: translateY(calc(-100% - var(--gap)));}}
+  --animate-orbit: orbit calc(var(--duration)*1s) linear infinite;
+  @keyframes orbit {
+  0% {
+    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));}
+  100% {
+    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}}
 
 :root {
 /* 背景 - 奶白色 */
   --background: oklch(98% 0.015 50);
   --foreground: oklch(20% 0.02 250);
-  
+
   /* 卡片 */
   --card: oklch(100% 0 0);
   --card-foreground: oklch(20% 0.02 250);
   --popover: oklch(98% 0.015 50);
   --popover-foreground: oklch(20% 0.02 250);
-  
+
   /* 主色 - 科技蓝 */
   --primary: oklch(55% 0.18 245);
   --primary-foreground: oklch(98% 0.02 250);
-  
+
   /* 次要 */
   --secondary: oklch(93% 0.02 240);
   --secondary-foreground: oklch(35% 0.08 245);
   --accent: oklch(65% 0.22 248);
   --accent-foreground: oklch(20% 0.02 250);
-  
+
   /* 状态 */
   --muted: oklch(92% 0.015 45);
   --muted-foreground: oklch(50% 0.03 250);
   --destructive: oklch(65% 0.22 20);
-  
+
   /* 边框 */
   --border: oklch(85% 0.02 250);
   --input: oklch(85% 0.02 250);
   --ring: oklch(55% 0.18 245);
-  
+
   /* 侧边栏 */
   --sidebar: oklch(96% 0.01 50);
   --sidebar-foreground: oklch(25% 0.03 250);
@@ -110,14 +117,14 @@
   --sidebar-accent-foreground: oklch(35% 0.08 245);
   --sidebar-border: oklch(85% 0.02 250);
   --sidebar-ring: oklch(55% 0.18 245);
-  
+
   /* 图表颜色 */
   --chart-1: oklch(55% 0.18 245);
   --chart-2: oklch(65% 0.15 270);
   --chart-3: oklch(70% 0.18 180);
   --chart-4: oklch(60% 0.20 320);
   --chart-5: oklch(55% 0.22 30);
-  
+
   /* 圆角 */
   --radius: 0.625rem;
 }
@@ -125,28 +132,28 @@
 .dark {
   --background: oklch(15% 0.02 250);
   --foreground: oklch(95% 0.02 250);
-  
+
   --card: oklch(18% 0.03 250);
   --card-foreground: oklch(95% 0.02 250);
   --popover: oklch(18% 0.03 250);
   --popover-foreground: oklch(95% 0.02 250);
-  
+
   --primary: oklch(65% 0.22 248);
   --primary-foreground: oklch(18% 0.03 250);
-  
+
   --secondary: oklch(25% 0.04 245);
   --secondary-foreground: oklch(90% 0.03 245);
   --accent: oklch(70% 0.20 250);
   --accent-foreground: oklch(95% 0.02 250);
-  
+
   --muted: oklch(25% 0.04 245);
   --muted-foreground: oklch(65% 0.05 250);
   --destructive: oklch(65% 0.22 20);
-  
+
   --border: oklch(30% 0.05 250);
   --input: oklch(30% 0.05 250);
   --ring: oklch(65% 0.22 248);
-  
+
   --sidebar: oklch(12% 0.02 250);
   --sidebar-foreground: oklch(85% 0.03 250);
   --sidebar-primary: oklch(65% 0.22 248);
@@ -155,7 +162,7 @@
   --sidebar-accent-foreground: oklch(90% 0.03 245);
   --sidebar-border: oklch(30% 0.05 250);
   --sidebar-ring: oklch(65% 0.22 248);
-  
+
   --chart-1: oklch(65% 0.22 248);
   --chart-2: oklch(70% 0.18 280);
   --chart-3: oklch(75% 0.20 190);
