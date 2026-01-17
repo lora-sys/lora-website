@@ -8,7 +8,7 @@
     "build:cf": "intlayer build && opennextjs-cloudflare build",
     "intlayer:build": "intlayer build",
     "intlayer:watch": "intlayer build --watch",
-    "deploy:cf": "opennextjs-cloudflare deploy",
+    "deploy:cf": "wrangler deploy",
     "start": "next start",
     "lint": "eslint"
   },
