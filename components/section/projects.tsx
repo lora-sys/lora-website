@@ -10,6 +10,8 @@ import { cn } from "@/lib/utils";
 import { 
   Bot, ShoppingCart, BarChart, Smartphone, Terminal 
 } from "lucide-react";
+import { useIntlayer } from "react-intlayer";
+
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   bot: Bot,
   "shopping-cart": ShoppingCart,
@@ -42,8 +44,12 @@ function Tag({ children }: { children: React.ReactNode }) {
   );
 }
 export function ProjectsSection() {
-  const titleWords = [{ text: projectsData.title, className: "text-foreground" }];
-  const descriptionWords = projectsData.description.split(" ").map(word => ({
+  const { title, description, items } = useIntlayer("projects");
+  const titleText = typeof title === 'string' ? title : (title as any).value;
+  const descriptionText = typeof description === 'string' ? description : (description as any).value;
+
+  const titleWords = [{ text: titleText, className: "text-foreground" }];
+  const descriptionWords = String(descriptionText).split(" ").map((word: string) => ({
     text: word + " ",
     className: "text-muted-foreground"
   }));
@@ -63,15 +69,16 @@ export function ProjectsSection() {
         <BentoGrid className="mx-auto">
           {projectsData.items.map((item, i) => {
             const IconComponent = iconMap[item.icon] || Bot;
+            const translatedItem = items[i];
             
             return (
               <BentoCard
                 key={i}
                 Icon={<IconComponent className="h-12 w-12 text-neutral-700 dark:text-neutral-300" />}
-                name={item.name}
-                description={item.description}
+                name={translatedItem.name}
+                description={translatedItem.description}
                 href={item.href}
-                cta={item.cta}
+                cta={translatedItem.cta}
                 className={cn(item.className, "relative")}
                 background={getBackgroundComponent(item.background)}
               >

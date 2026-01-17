@@ -24,67 +24,33 @@ export const AnimatedThemeToggler = ({
     setMounted(true)
   }, [])
 
-  const toggleTheme = useCallback(async () => {
+  const toggleTheme = useCallback(() => {
     const isDark = resolvedTheme === "dark"
-    const newTheme = isDark ? "light" : "dark"
+    setTheme(isDark ? "light" : "dark")
+  }, [resolvedTheme, setTheme])
 
-    if (!document.startViewTransition || !buttonRef.current) {
-      setTheme(newTheme)
-      return
-    }
-
-    await document.startViewTransition(() => {
-      flushSync(() => {
-        setTheme(newTheme)
-      })
-    }).ready
-
-    const { top, left, width, height } =
-      buttonRef.current.getBoundingClientRect()
-    const x = left + width / 2
-    const y = top + height / 2
-    const maxRadius = Math.hypot(
-      Math.max(left, window.innerWidth - left),
-      Math.max(top, window.innerHeight - top)
-    )
-
-    document.documentElement.animate(
-      {
-        clipPath: [
-          `circle(0px at ${x}px ${y}px)`,
-          `circle(${maxRadius}px at ${x}px ${y}px)`,
-        ],
-      },
-      {
-        duration,
-        easing: "ease-in-out",
-        pseudoElement: "::view-transition-new(root)",
-      }
-    )
-  }, [resolvedTheme, setTheme, duration])
-
-  // Prevent hydration mismatch
-  if (!mounted) {
-    return (
-      <button
-        className={cn(className)}
-        {...props}
-      >
-        <span className="sr-only">Toggle theme</span>
-      </button>
-    )
-  }
-
-  const isDark = resolvedTheme === "dark"
+  const isDark = mounted && resolvedTheme === "dark"
 
   return (
     <button
       ref={buttonRef}
       onClick={toggleTheme}
-      className={cn(className)}
+      className={cn(
+        "relative flex h-9 w-9 items-center justify-center rounded-lg border border-border bg-background hover:bg-muted transition-colors",
+        className
+      )}
       {...props}
     >
-      {isDark ? <Sun /> : <Moon />}
+      <div className="relative h-5 w-5">
+        <Sun className={cn(
+          "absolute inset-0 transition-all duration-300",
+          isDark ? "rotate-0 scale-100 opacity-100" : "-rotate-90 scale-0 opacity-0"
+        )} />
+        <Moon className={cn(
+          "absolute inset-0 transition-all duration-300",
+          isDark ? "rotate-90 scale-0 opacity-0" : "rotate-0 scale-100 opacity-100"
+        )} />
+      </div>
       <span className="sr-only">Toggle theme</span>
     </button>
   )

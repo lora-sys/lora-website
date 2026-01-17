@@ -6,6 +6,7 @@ import { TextRevealCard, TextRevealCardDescription, TextRevealCardTitle } from "
 import { HyperText } from "@/components/ui/hyper-text";
 import Link from "next/link";
 import { Github, Twitter, Instagram, Video, Music } from "lucide-react";
+import { useIntlayer } from "react-intlayer";
 
 const iconMap: Record<string, any> = {
   github: Github,
@@ -16,6 +17,8 @@ const iconMap: Record<string, any> = {
 };
 
 export function Footer() {
+  const { revealCard, rightsReserved } = useIntlayer("footer");
+
   return (
     <footer className="relative w-full overflow-hidden border-t border-border/40 bg-background">
       <WavyBackground 
@@ -30,15 +33,15 @@ export function Footer() {
       >
         <div className="flex flex-col items-center justify-center gap-10 z-10">
             <TextRevealCard
-                text="You know the business"
-                revealText="I know the chemistry"
+                text={revealCard.text}
+                revealText={revealCard.revealText}
                 className="bg-transparent border-none shadow-none"
             >
                 <TextRevealCardTitle className="text-3xl text-center text-foreground">
-                    Everything is possible
+                    {revealCard.title}
                 </TextRevealCardTitle>
                 <TextRevealCardDescription className="text-center text-muted-foreground">
-                    Hover to reveal the hidden truth.
+                    {revealCard.description}
                 </TextRevealCardDescription>
             </TextRevealCard>
 
@@ -54,7 +57,7 @@ export function Footer() {
                 })}
             </div>
              <div className="text-center text-sm text-muted-foreground mt-10">
-                © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
+                © {new Date().getFullYear()} {siteConfig.name}. {rightsReserved}
             </div>
         </div>
       </WavyBackground>

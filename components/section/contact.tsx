@@ -10,12 +10,15 @@ import { Github, Twitter, Instagram, Linkedin, Mail } from "lucide-react";
 import { SiBilibili, SiTiktok } from "react-icons/si";
 import { ShineBorder } from "@/components/ui/shine-border";
 import dynamic from "next/dynamic";
+import { useIntlayer } from "react-intlayer";
 
 const Globe = dynamic(() => import("@/components/ui/globe").then((m) => m.Globe), {
   ssr: false,
 });
 
 export function ContactSection() {
+  const { title, description, emailLabel } = useIntlayer("contact");
+
   return (
     <section id="contact" className="relative h-screen w-full overflow-hidden bg-background">
       <div className="grid h-full w-full grid-cols-1 lg:grid-cols-2">
@@ -32,9 +35,9 @@ export function ContactSection() {
           <div className="relative flex w-full max-w-[400px] flex-col items-center justify-center overflow-hidden rounded-xl bg-background/30 backdrop-blur-md border border-white/10 p-8 shadow-2xl">
             <BorderBeam size={250} duration={12} delay={9} />
             
-            <h2 className="text-3xl font-bold tracking-tighter text-foreground mb-2">Get in Touch</h2>
+            <h2 className="text-3xl font-bold tracking-tighter text-foreground mb-2">{title}</h2>
             <p className="text-muted-foreground text-center mb-6">
-                Connect with me on social media or send me an email.
+                {description}
             </p>
 
             <div className="grid grid-cols-3 gap-4 w-full">
@@ -82,7 +85,7 @@ export function ContactSection() {
                     <div className="p-3 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
                          <Mail className="w-6 h-6" />
                     </div>
-                     <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">Email</span>
+                     <span className="text-xs text-muted-foreground group-hover:text-foreground transition-colors">{emailLabel}</span>
                 </Link>
             </div>
         </div>

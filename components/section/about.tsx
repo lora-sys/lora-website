@@ -9,12 +9,28 @@ import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import { BentoCard, BentoGrid } from "@/components/ui/bento-grid";
 import { aboutData } from "@/config/site-data";
 import { TypingAnimation } from "../ui/typing-animation";
+import { useIntlayer } from "react-intlayer";
+
 interface GitHubStats {
   contributions: number;
   stars: number;
 }
 
 export function AboutSection() {
+  const { typingAnimation, profileCta, contributions, stars: starsContent, music, location, techStack } = useIntlayer("about");
+  const typingAnimationText = typeof typingAnimation === 'string' ? typingAnimation : (typingAnimation as any).value;
+
+  const profileCtaText = typeof profileCta === 'string' ? profileCta : (profileCta as any).value;
+  const contributionsNameText = typeof contributions.name === 'string' ? contributions.name : (contributions.name as any).value;
+  const contributionsDescriptionText = typeof contributions.description === 'string' ? contributions.description : (contributions.description as any).value;
+  const starsNameText = typeof starsContent.name === 'string' ? starsContent.name : (starsContent.name as any).value;
+  const starsDescriptionText = typeof starsContent.description === 'string' ? starsContent.description : (starsContent.description as any).value;
+  const musicCtaText = typeof music.cta === 'string' ? music.cta : (music.cta as any).value;
+  const locationNameText = typeof location.name === 'string' ? location.name : (location.name as any).value;
+  const locationDescriptionText = typeof location.description === 'string' ? location.description : (location.description as any).value;
+  const techStackNameText = typeof techStack.name === 'string' ? techStack.name : (techStack.name as any).value;
+  const techStackDescriptionText = typeof techStack.description === 'string' ? techStack.description : (techStack.description as any).value;
+
   const [stats, setStats] = useState<GitHubStats>({
     contributions: 0,
     stars: 0,
@@ -91,11 +107,11 @@ export function AboutSection() {
       </div>
       <div className="flex h-[25%] items-start justify-center pt-4">
         <TypingAnimation className="text-wrap text-3xl font-bold md:text-5xl">
-          I am LORA
+          {typingAnimationText}
         </TypingAnimation>
       </div>
     </div>
-  ), []);
+  ), [typingAnimationText]);
 
   const features = [
     {
@@ -103,18 +119,18 @@ export function AboutSection() {
       description: aboutData.username,
       href: aboutData.profileUrl,
       target: "_blank",
-      cta: "View Profile",
+      cta: profileCtaText,
       Icon: User,
       className: "lg:row-start-1 lg:row-end-4 lg:col-start-1 lg:col-end-2",
       background: backgroundContent,
     },
     {
       Icon: Trophy,
-      name: "Contributions",
-      description: "Total commits",
+      name: contributionsNameText,
+      description: contributionsDescriptionText,
       href: aboutData.profileUrl,
       target: "_blank",
-      cta: "View Profile",
+      cta: profileCtaText,
       className: "lg:row-start-1 lg:row-end-2 lg:col-start-2 lg:col-end-3",
       background: (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10">
@@ -127,7 +143,7 @@ export function AboutSection() {
                 className="text-6xl font-bold tracking-tighter text-primary"
               />
               <p className="mt-2 text-sm text-muted-foreground">
-                Contributions
+                {contributionsNameText}
               </p>
             </>
           )}
@@ -136,11 +152,11 @@ export function AboutSection() {
     },
     {
       Icon: Star,
-      name: "Stars",
-      description: "Total stars",
+      name: starsNameText,
+      description: starsDescriptionText,
       href: aboutData.profileUrl,
       target: "_blank",
-      cta: "View Profile",
+      cta: profileCtaText,
       className: "lg:row-start-1 lg:row-end-2 lg:col-start-3 lg:col-end-4",
       background: (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-primary/10">
@@ -152,7 +168,7 @@ export function AboutSection() {
                 value={stats.stars}
                 className="text-6xl font-bold tracking-tighter text-primary"
               />
-              <p className="mt-2 text-sm text-muted-foreground">Stars</p>
+              <p className="mt-2 text-sm text-muted-foreground">{starsNameText}</p>
             </>
           )}
         </div>
@@ -164,7 +180,7 @@ export function AboutSection() {
       description: aboutData.music[0].artist,
       href: "https://open.spotify.com",
       target: "_blank",
-      cta: "Listen",
+      cta: musicCtaText,
       dark: true,
       className: "lg:row-start-2 lg:row-end-3 lg:col-start-2 lg:col-end-3",
       background: (
@@ -193,7 +209,7 @@ export function AboutSection() {
       description: aboutData.music[1].artist,
       href: "https://open.spotify.com",
       target: "_blank",
-      cta: "Listen",
+      cta: musicCtaText,
       className: "lg:row-start-2 lg:row-end-3 lg:col-start-3 lg:col-end-4",
       background: (
         <div className="absolute inset-0">
@@ -216,29 +232,30 @@ export function AboutSection() {
       ),
     },
     {
-      name: "Trae",
-      description: "AI IDE",
-      href: "https://trae.ai",
-      target: "_blank",
-      Icon: Code2,
-      cta: "Visit",
+      name: locationNameText,
+      description: locationDescriptionText,
+      Icon: Globe,
       className: "lg:row-start-3 lg:row-end-4 lg:col-start-2 lg:col-end-3",
       background: (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <Meteors number={10} />
-          <TextHoverEffect text="Trae" />
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
+          <Globe className="h-32 w-32 opacity-10" />
         </div>
       ),
     },
     {
-      name: "Chrome",
-      description: "Browser",
-      href: "https://chrome.google.com",
+      name: techStackNameText,
+      description: techStackDescriptionText,
+      href: "#skills",
       target: "_blank",
-      Icon: Globe,
+      Icon: Code2,
       cta: "Visit",
       className: "lg:row-start-3 lg:row-end-4 lg:col-start-3 lg:col-end-4",
-      background: <TextHoverEffect text="Chrome" />,
+      background: (
+        <div className="absolute inset-0 flex items-center justify-center">
+          <Meteors number={10} />
+          <TextHoverEffect text="Tech" />
+        </div>
+      ),
     },
   ];
   return (
@@ -249,11 +266,11 @@ export function AboutSection() {
 
       <div className="w-full max-w-7xl px-4">
         <BentoGrid className="lg:grid-rows-3">
-          {features.map((feature) => {
+          {features.map((feature, idx) => {
             const { Icon, ...rest } = feature;
             return (
               <BentoCard
-                key={rest.name}
+                key={`${rest.name}-${idx}`}
                 {...rest}
                 Icon={
                   <Icon

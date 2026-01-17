@@ -4,14 +4,20 @@ import { IconCloud } from "@/components/ui/icon-cloud";
 import { LightRays } from "@/components/ui/light-rays";
 import { StripedPattern } from "@/components/magicui/striped-pattern";
 import { TypewriterEffect } from "@/components/ui/typewriter-effect";
-const titleWords = [
-  { text: skillsData.title, className: "text-foreground" }
-];
-const descriptionWords = skillsData.description.split(" ").map(word  => ({
-  text: word + " ",
-  className: "text-muted-foreground"
-}));
+import { useIntlayer } from "react-intlayer";
+
 export function SkillsSection() {
+  const { title, description } = useIntlayer("skills");
+  const titleText = typeof title === 'string' ? title : (title as any).value;
+  const descriptionText = typeof description === 'string' ? description : (description as any).value;
+
+  const titleWords = [
+    { text: titleText, className: "text-foreground" }
+  ];
+  const descriptionWords = String(descriptionText).split(" ").map((word: string)  => ({
+    text: word + " ",
+    className: "text-muted-foreground"
+  }));
   const images = skillsData.slugs.map((slug : any) => `/skills/${slug}.svg`);
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center py-20">

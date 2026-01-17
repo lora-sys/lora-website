@@ -8,9 +8,13 @@ import Image from "next/image";
 import { GripVertical, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+import { LocaleSwitcher } from "./locale-switcher";
 import { AnimatePresence } from "motion/react";
+import { useIntlayer } from "react-intlayer";
 
 export function ResizableNavbar() {
+    const navbar = useIntlayer("navbar");
+    const navItems = navbar?.navItems ?? [];
     const pathname = usePathname();
     const [width, setWidth] = useState(850); // Default width increased for visibility
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -26,7 +30,8 @@ export function ResizableNavbar() {
         }
     };
 
-    const isActive = (link: string) => {
+    const isActive = (link: any) => {
+        if (!link || typeof link !== 'string') return false;
         if (link === "/") return pathname === "/";
         if (link.startsWith("/#")) return false; // Hash links don't highlight based on pathname
         return pathname.startsWith(link);
@@ -37,7 +42,6 @@ export function ResizableNavbar() {
              <motion.nav
                 className="pointer-events-auto relative h-14 bg-background/80 backdrop-blur-md border border-border rounded-full flex items-center px-4 shadow-lg"
                 style={{ width }}
-                layout
                 aria-label="Main Navigation"
              >
                 {/* Logo */}
@@ -55,22 +59,28 @@ export function ResizableNavbar() {
 
                 {/* Nav Items */}
                 <div className="flex-1 flex items-center justify-center gap-2 md:gap-6 overflow-hidden px-2">
-                    {siteConfig.nav.map((item) => (
-                        <Link 
-                            key={item.name} 
-                            href={item.link}
-                            className={cn(
-                                "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-muted",
-                                isActive(item.link) ? "text-primary bg-muted/50" : "text-muted-foreground"
-                            )}
-                        >
-                            {item.name}
-                        </Link>
-                    ))}
+                    {Array.isArray(navItems) && navItems.map((item: any, idx: number) => {
+                        const name = typeof item.name === 'string' ? item.name : (item.name as any)?.value;
+                        const link = typeof item.link === 'string' ? item.link : (item.link as any)?.value;
+                        
+                        return (
+                            <Link 
+                                key={`${name}-${idx}`} 
+                                href={link}
+                                className={cn(
+                                    "text-sm font-medium transition-colors hover:text-primary whitespace-nowrap px-3 py-1.5 rounded-full hover:bg-muted",
+                                    isActive(link) ? "text-primary bg-muted/50" : "text-muted-foreground"
+                                )}
+                            >
+                                {name}
+                            </Link>
+                        );
+                    })}
                 </div>
 
-                {/* Theme Toggler Integration (Optional, but nice to have in navbar) */}
-                <div className="hidden sm:block border-l border-border pl-2 ml-2">
+                {/* Theme Toggler & Locale Switcher */}
+                <div className="hidden sm:flex items-center border-l border-border pl-2 ml-2 gap-1">
+                    <LocaleSwitcher />
                     <AnimatedThemeToggler />
                 </div>
 
