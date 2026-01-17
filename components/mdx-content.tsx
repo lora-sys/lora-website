@@ -1,11 +1,11 @@
 'use client';
 
 import { useMDXComponent } from 'next-contentlayer/hooks';
-import defaultComponents from 'fumadocs-ui/mdx';
+// import defaultComponents from 'fumadocs-ui/mdx';
 
 // Custom components to override default MDX components if needed
 const customComponents = {
-  ...defaultComponents,
+  // ...defaultComponents,
 };
 
 interface MDXContentProps {

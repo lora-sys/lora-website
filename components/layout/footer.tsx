@@ -17,7 +17,15 @@ const iconMap: Record<string, any> = {
 };
 
 export function Footer() {
-  const { revealCard, rightsReserved } = useIntlayer("footer");
+  const footer = useIntlayer("footer");
+  const revealCard = footer?.revealCard;
+  const rightsReserved = footer?.rightsReserved;
+
+  const revealCardText = typeof revealCard?.text === 'string' ? revealCard.text : (revealCard?.text as any)?.value ?? "";
+  const revealCardRevealText = typeof revealCard?.revealText === 'string' ? revealCard.revealText : (revealCard?.revealText as any)?.value ?? "";
+  const revealCardTitle = typeof revealCard?.title === 'string' ? revealCard.title : (revealCard?.title as any)?.value ?? "";
+  const revealCardDescription = typeof revealCard?.description === 'string' ? revealCard.description : (revealCard?.description as any)?.value ?? "";
+  const rightsReservedText = typeof rightsReserved === 'string' ? rightsReserved : (rightsReserved as any)?.value ?? "";
 
   return (
     <footer className="relative w-full overflow-hidden border-t border-border/40 bg-background">
@@ -33,15 +41,15 @@ export function Footer() {
       >
         <div className="flex flex-col items-center justify-center gap-10 z-10">
             <TextRevealCard
-                text={revealCard.text}
-                revealText={revealCard.revealText}
+                text={revealCardText}
+                revealText={revealCardRevealText}
                 className="bg-transparent border-none shadow-none"
             >
                 <TextRevealCardTitle className="text-3xl text-center text-foreground">
-                    {revealCard.title}
+                    {revealCardTitle}
                 </TextRevealCardTitle>
                 <TextRevealCardDescription className="text-center text-muted-foreground">
-                    {revealCard.description}
+                    {revealCardDescription}
                 </TextRevealCardDescription>
             </TextRevealCard>
 
@@ -57,7 +65,7 @@ export function Footer() {
                 })}
             </div>
              <div className="text-center text-sm text-muted-foreground mt-10">
-                © {new Date().getFullYear()} {siteConfig.name}. {rightsReserved}
+                © {new Date().getFullYear()} {siteConfig.name}. {rightsReservedText}
             </div>
         </div>
       </WavyBackground>

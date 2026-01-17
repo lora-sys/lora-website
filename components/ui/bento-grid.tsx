@@ -16,8 +16,8 @@ interface BentoCardProps extends ComponentPropsWithoutRef<"div"> {
   background: ReactNode;
   Icon: ReactNode;
   description: string;
-  href: string;
-  cta: string;
+  href?: string;
+  cta?: string;
   dark?: boolean;
 }
 
@@ -71,10 +71,11 @@ const BentoCard = ({
 
       <div
         className={cn(
-          "pointer-events-none flex w-full translate-y-0 transform-gpu flex-row items-center transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:hidden"
+          "pointer-events-none flex w-full translate-y-0 transform-gpu flex-row items-center transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:hidden",
+          (!href || !cta) && "hidden"
         )}
       >
-        
+        {href && cta && (
           <Button
             variant="link"
             asChild
@@ -83,27 +84,30 @@ const BentoCard = ({
           >
             <span
               className="cursor-pointer"
-              onClick={() => window.open(href, "_blank")}
+              onClick={() => window.open(href!, "_blank")}
             >
               {cta}
               <ArrowRightIcon className="ms-2 h-4 w-4" />
             </span>
           </Button>
+        )}
       </div>
     </div>
 
-    <div
-      className={cn(
-        "pointer-events-none absolute bottom-0 hidden w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:flex"
-      )}
-    >
-      <LinkPreview url={href}>
-        <div className="pointer-events-auto flex items-center gap-2">
-          {cta}
-          <ArrowRightIcon className="h-4 w-4" />
-        </div>
-      </LinkPreview>
-    </div>
+    {href && cta && (
+      <div
+        className={cn(
+          "pointer-events-none absolute bottom-0 hidden w-full translate-y-10 transform-gpu flex-row items-center p-4 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 lg:flex"
+        )}
+      >
+        <LinkPreview url={href!}>
+           <div className="pointer-events-auto flex items-center gap-2">
+             {cta}
+             <ArrowRightIcon className="h-4 w-4" />
+           </div>
+         </LinkPreview>
+      </div>
+    )}
 
     <div className="pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10" />
   </div>
