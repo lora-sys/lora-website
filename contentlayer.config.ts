@@ -1,7 +1,8 @@
 import { defineDocumentType, makeSource } from 'contentlayer/source-files'
 import rehypeSlug from 'rehype-slug'
-import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-import { remarkHeading } from 'fumadocs-core/mdx-plugins'
+
+const isDev =
+  process.env.NODE_ENV === 'development' || process.env.npm_lifecycle_event === 'dev'
 
 export const Post = defineDocumentType(() => ({
   name: 'Post',
@@ -52,5 +53,9 @@ export default makeSource({
   documentTypes: [Post],
   mdx: {
     rehypePlugins: [rehypeSlug],
+    mdxOptions: (options) => ({
+      ...options,
+      development: isDev,
+    }),
   },
 })

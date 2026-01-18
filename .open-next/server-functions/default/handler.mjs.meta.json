@@ -3529,13 +3529,13 @@
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js": {
-      "bytes": 30875,
+    ".open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js": {
+      "bytes": 5980,
       "imports": [],
       "format": "cjs"
     },
-    ".open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js": {
-      "bytes": 5980,
+    ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js": {
+      "bytes": 30875,
       "imports": [],
       "format": "cjs"
     },
@@ -3578,14 +3578,14 @@
           "original": "/Users/loralora/repos/loralg/.open-next/server-functions/default/.next/server/app/_not-found/page_client-reference-manifest.js"
         },
         {
-          "path": ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js",
-          "kind": "require-call",
-          "original": "/Users/loralora/repos/loralg/.open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js"
-        },
-        {
           "path": ".open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js",
           "kind": "require-call",
           "original": "/Users/loralora/repos/loralg/.open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js"
+        },
+        {
+          "path": ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js",
+          "kind": "require-call",
+          "original": "/Users/loralora/repos/loralg/.open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js"
         },
         {
           "path": ".open-next/server-functions/default/.next/server/app/[locale]/blog/page_client-reference-manifest.js",
@@ -4301,7 +4301,7 @@
       "format": "cjs"
     },
     ".open-next/server-functions/default/.next/server/chunks/ssr/_contentlayer_generated_53b2ef00._.js": {
-      "bytes": 141479,
+      "bytes": 60474,
       "imports": [],
       "format": "cjs"
     },
@@ -9965,11 +9965,11 @@
         ".open-next/server-functions/default/.next/server/app/_not-found/page_client-reference-manifest.js": {
           "bytesInOutput": 5739
         },
-        ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js": {
-          "bytesInOutput": 29902
-        },
         ".open-next/server-functions/default/.next/server/app/_global-error/page_client-reference-manifest.js": {
           "bytesInOutput": 5746
+        },
+        ".open-next/server-functions/default/.next/server/app/[locale]/page_client-reference-manifest.js": {
+          "bytesInOutput": 29902
         },
         ".open-next/server-functions/default/.next/server/app/[locale]/blog/page_client-reference-manifest.js": {
           "bytesInOutput": 14752
@@ -10110,7 +10110,7 @@
           "bytesInOutput": 18206
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_contentlayer_generated_53b2ef00._.js": {
-          "bytesInOutput": 144892
+          "bytesInOutput": 63887
         },
         ".open-next/server-functions/default/.next/server/chunks/ssr/_intlayer_fda35285._.js": {
           "bytesInOutput": 11143
@@ -10704,7 +10704,7 @@
           "bytesInOutput": 63307
         }
       },
-      "bytes": 5878206
+      "bytes": 5797201
     }
   }
 }
