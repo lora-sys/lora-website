@@ -1,18 +1,16 @@
-import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/section/hero";
+import dynamic from "next/dynamic";
 
 const SkillsSection = dynamic(
   () => import("@/components/section/skills").then((mod) => mod.SkillsSection),
   { loading: () => <div className="h-[60vh]" /> }
 );
 const ProjectsSection = dynamic(
-  () =>
-    import("@/components/section/projects").then((mod) => mod.ProjectsSection),
+  () => import("@/components/section/projects").then((mod) => mod.ProjectsSection),
   { loading: () => <div className="h-[60vh]" /> }
 );
 const TimelineSection = dynamic(
-  () =>
-    import("@/components/section/timeline").then((mod) => mod.TimelineSection),
+  () => import("@/components/section/timeline").then((mod) => mod.TimelineSection),
   { loading: () => <div className="h-[60vh]" /> }
 );
 const BlogSection = dynamic(
@@ -36,43 +34,25 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
-      <div
-        id="skills"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_800px]"
-      >
+      <div id="skills" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         <SkillsSection />
       </div>
-      <div
-        id="projects"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
-      >
+      <div id="projects" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         <ProjectsSection />
       </div>
-      <div
-        id="timeline"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
-      >
+      <div id="timeline" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         <TimelineSection />
       </div>
       <div className="[content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         <BlogSection />
       </div>
-      <div
-        id="about"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
-      >
+      <div id="about" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         <AboutSection />
       </div>
-      <div
-        id="life"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
-      >
+      <div id="life" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_900px]">
         <LifeSection />
       </div>
-      <div
-        id="contact"
-        className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_600px]"
-      >
+      <div id="contact" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_600px]">
         <ContactSection />
       </div>
     </main>
