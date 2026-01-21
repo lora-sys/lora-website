@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "intlayer build && next build",
-    "build:cf": "intlayer build && opennextjs-cloudflare build",
+    "build:cf": "intlayer build && next build",
     "intlayer:build": "intlayer build",
     "intlayer:watch": "intlayer build --watch",
     "deploy:cf": "wrangler deploy",

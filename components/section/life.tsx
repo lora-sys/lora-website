@@ -31,7 +31,17 @@ export function LifeSection() {
                 name="" // Hide default name
                 description="" // Hide default description
                 Icon={
-                  <Icon className="h-12 w-12 origin-left transform-gpu text-white transition-all duration-300 ease-in-out group-hover:scale-75" />
+                  <>
+                    <Icon className="h-12 w-12 origin-left transform-gpu text-white transition-all duration-300 ease-in-out group-hover:scale-75" />
+                    <div className="absolute inset-0 -m-4 flex flex-col justify-end p-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300 lg:group-hover:translate-y-10 pointer-events-none">
+                      <h3 className="text-xl font-bold text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 mb-1">
+                        {rest.name}
+                      </h3>
+                      <p className="text-neutral-200 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
+                        {rest.description}
+                      </p>
+                    </div>
+                  </>
                 }
                 background={
                   <div className="absolute inset-0">
@@ -42,16 +52,6 @@ export function LifeSection() {
                       className="object-cover transition-transform duration-300 group-hover:scale-105 opacity-100"
                     />
                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors duration-300" />
-                    
-                    {/* Hover Reveal Content */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                      <h3 className="text-xl font-bold text-white translate-y-4 group-hover:translate-y-0 transition-transform duration-300 mb-1">
-                        {rest.name}
-                      </h3>
-                      <p className="text-neutral-200 translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                        {rest.description}
-                      </p>
-                    </div>
                   </div>
                 }
               />
