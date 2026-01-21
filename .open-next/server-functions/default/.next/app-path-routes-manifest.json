@@ -1,8 +1,0 @@
-{
-  "/[locale]/blog/[slug]/page": "/[locale]/blog/[slug]",
-  "/[locale]/blog/page": "/[locale]/blog",
-  "/[locale]/page": "/[locale]",
-  "/_global-error/page": "/_global-error",
-  "/_not-found/page": "/_not-found",
-  "/favicon.ico/route": "/favicon.ico"
-}
