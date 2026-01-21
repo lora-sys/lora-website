@@ -54,21 +54,21 @@ export const life = {
       name: "Andrej Karpathy",
       username: "karpathy",
       content: "The Transformer is a magnificent neural network architecture. It is a general-purpose computer that is differentiable and easily trainable on parallel hardware.",
-      image: "https://pbs.twimg.com/profile_images/1581001412112130048/UP9v99Me_400x400.jpg",
+      image: "/images/avatars/karpathy.jpg",
     },
     {
       id: "1472287874003333122",
       name: "Andrej Karpathy",
       username: "karpathy",
       content: "I often see people saying that AI is consolidating. I think the opposite is true. We are moving from a world where AI is a niche academic field to a world where AI is the fundamental fabric of all software.",
-      image: "https://pbs.twimg.com/profile_images/1581001412112130048/UP9v99Me_400x400.jpg",
+      image: "/images/avatars/karpathy.jpg",
     },
     {
       id: "1002103360646823936",
       name: "Naval",
       username: "naval",
       content: "Learn to sell. Learn to build. If you can do both, you will be unstoppable.",
-      image: "https://pbs.twimg.com/profile_images/1657502745371336704/UnId79jw_400x400.jpg",
+      image: "/images/avatars/naval.jpg",
     }
   ],
   quotes: [
