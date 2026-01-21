@@ -7,8 +7,11 @@ import { IntlayerClientProvider } from "next-intlayer";
 import { Locales } from "intlayer";
 
 export const metadata: Metadata = {
-  title: "My 3D Blog",
-  description: "A blog about 3D art, modeling, and design.",
+  title: {
+    template: "%s | Lora",
+    default: "Lora | Full-Stack Developer",
+  },
+  description: "Personal portfolio of Lora, showcasing projects in AI, Web Development, and more.",
 };
 
 export function generateStaticParams() {
@@ -42,12 +45,6 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <a
-              href="#main-content"
-              className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-md focus:bg-background focus:px-3 focus:py-2 focus:text-sm focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-primary/50"
-            >
-              Skip to main content
-            </a>
             <ResizableNavbar />
             <div id="main-content">{children}</div>
             <Footer />

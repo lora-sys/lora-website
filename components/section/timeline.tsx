@@ -6,9 +6,15 @@ import { Marquee } from "@/components/ui/marquee";
 import { Meteors } from "@/components/ui/meteors";
 import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Timeline } from "@/components/ui/timeline";
-import { hackathonTimeline, timelineTags } from "@/config/timeline";
+import { useIntlayer } from "react-intlayer";
 
 export function TimelineSection() {
+  const { title, description, tags, items } = useIntlayer("timeline");
+
+  // 确保数据存在且是数组
+  const tagsList = Array.isArray(tags) ? tags : [];
+  const itemsList = Array.isArray(items) ? items : [];
+
   return (
     <section
       className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-20"
@@ -18,18 +24,18 @@ export function TimelineSection() {
       <div className="container px-4 md:px-6 relative z-10">
         <div className="mb-12 text-center space-y-4">
           <TypingAnimation className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500">
-            Hackathon Timeline
+            {title?.value?.toString() || ""}
           </TypingAnimation>
           <p className="mx-auto max-w-[760px] text-muted-foreground md:text-xl">
-            用时间线记录我从报名到路演的全过程，你可以随时添加更多节点和照片。
+            {description?.value?.toString() || ""}
           </p>
         </div>
 
         <div className="relative mb-10 flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background/70 backdrop-blur-sm md:shadow-xl">
           <Marquee pauseOnHover className="[--duration:18s]">
-            {timelineTags.map((tag) => (
+            {tagsList.map((tag: any, idx: number) => (
               <div
-                key={tag}
+                key={idx}
                 className={cn(
                   "relative cursor-pointer overflow-hidden rounded-full border px-6 py-3",
                   "border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]",
@@ -38,7 +44,7 @@ export function TimelineSection() {
               >
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium tracking-wide">
-                    {tag}
+                    {tag?.value?.toString() || ""}
                   </span>
                 </div>
               </div>
@@ -52,29 +58,48 @@ export function TimelineSection() {
           <Timeline
             header={null}
             className="bg-transparent dark:bg-transparent md:px-0"
-            data={hackathonTimeline.map((item) => ({
-              title: item.title,
+            data={itemsList.map((item: any) => ({
+              title: item?.title?.value?.toString() || "",
               content: (
                 <div className="space-y-5">
                   <p className="text-neutral-700 dark:text-neutral-300 text-base leading-relaxed">
-                    {item.description}
+                    {item?.description?.value?.toString() || ""}
                   </p>
-                  {item.link ? (
-                    <Link
-                      href={item.link.href}
-                      target={/^https?:\/\//i.test(item.link.href) ? "_blank" : undefined}
-                      rel={/^https?:\/\//i.test(item.link.href) ? "noopener noreferrer" : undefined}
-                      className={cn(
-                        "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium",
-                        "border-gray-950/[.12] bg-gray-950/[.02] hover:bg-gray-950/[.06]",
-                        "dark:border-gray-50/[.14] dark:bg-gray-50/[.08] dark:hover:bg-gray-50/[.14]",
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                      )}
-                    >
-                      {item.link.label}
-                      <span aria-hidden="true">→</span>
-                    </Link>
-                  ) : null}
+                  <div className="flex flex-wrap gap-3">
+                    {item?.link ? (
+                      <Link
+                        href={item.link.href?.value?.toString() || "#"}
+                        target={/^https?:\/\//i.test(item.link.href?.value?.toString() || "") ? "_blank" : undefined}
+                        rel={/^https?:\/\//i.test(item.link.href?.value?.toString() || "") ? "noopener noreferrer" : undefined}
+                        className={cn(
+                          "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium",
+                          "border-gray-950/[.12] bg-gray-950/[.02] hover:bg-gray-950/[.06]",
+                          "dark:border-gray-50/[.14] dark:bg-gray-50/[.08] dark:hover:bg-gray-50/[.14]",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                        )}
+                      >
+                        {item.link.label?.value?.toString() || "Link"}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    ) : null}
+                    {Array.isArray(item?.links) && item.links.map((link: any, idx: number) => (
+                      <Link
+                        key={idx}
+                        href={link.href?.value?.toString() || "#"}
+                        target={/^https?:\/\//i.test(link.href?.value?.toString() || "") ? "_blank" : undefined}
+                        rel={/^https?:\/\//i.test(link.href?.value?.toString() || "") ? "noopener noreferrer" : undefined}
+                        className={cn(
+                          "inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-medium",
+                          "border-gray-950/[.12] bg-gray-950/[.02] hover:bg-gray-950/[.06]",
+                          "dark:border-gray-50/[.14] dark:bg-gray-50/[.08] dark:hover:bg-gray-50/[.14]",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                        )}
+                      >
+                        {link.label?.value?.toString() || "Link"}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               ),
             }))}
