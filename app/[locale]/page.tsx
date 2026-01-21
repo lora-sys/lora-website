@@ -33,7 +33,9 @@ const ContactSection = dynamic(
 export default function Home() {
   return (
     <main>
-      <HeroSection />
+      <div className="[content-visibility:auto] [contain-intrinsic-size:1px_900px]">
+        <HeroSection />
+      </div>
       <div id="skills" className="scroll-mt-28 [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
         <SkillsSection />
       </div>

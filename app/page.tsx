@@ -76,7 +76,9 @@ export default function IndexPage() {
             <ResizableNavbar />
             <div id="main-content">
               <main>
-                <HeroSection />
+                <div className="content-visibility-auto">
+                   <HeroSection />
+                </div>
                 {/* 找回所有性能优化项 */}
                 <div id="skills" className="scroll-mt-28 content-visibility-auto">
                   <SkillsSection />
