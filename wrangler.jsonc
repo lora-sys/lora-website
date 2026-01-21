@@ -1,14 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "lora-website",
-  "main": ".open-next/worker.js",
+  "pages_build_output_dir": "out",
   "compatibility_date": "2024-12-30",
-  "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "binding": "ASSETS",
-    "directory": ".open-next/assets"
-  },
-  "observability": {
-    "enabled": true
-  }
+  "compatibility_flags": ["nodejs_compat"]
 }
