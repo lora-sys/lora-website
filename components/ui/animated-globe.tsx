@@ -3,48 +3,45 @@
 import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
-interface Dot {
-  x: number;
-  y: number;
-  z: number;
-  size: number;
-  delay: number;
-  duration: number;
-}
-
 interface AnimatedGlobeProps {
   className?: string;
-  dotColor?: string;
-  lineColor?: string;
-  dotCount?: number;
-  speed?: "slow" | "medium" | "fast";
-  intensity?: "low" | "medium" | "high";
+  variant?: "subtle" | "medium" | "bold";
 }
 
 export function AnimatedGlobe({
   className,
-  dotColor = "#2563eb",
-  lineColor = "rgba(59, 130, 246, 0.4)",
-  dotCount = 60,
-  speed = "medium",
-  intensity = "medium",
+  variant = "medium",
 }: AnimatedGlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>(0);
-  const dotsRef = useRef<Dot[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const speedMultiplier = {
-    slow: 0.0003,
-    medium: 0.0005,
-    fast: 0.0008,
-  }[speed];
-
-  const intensityMultiplier = {
-    low: 0.6,
-    medium: 1,
-    high: 1.4,
-  }[intensity];
+  const config = {
+    subtle: {
+      dotColor: "#3b82f6",
+      lineColor: "rgba(59, 130, 246, 0.3)",
+      glowColor: "rgba(59, 130, 246, 0.15)",
+      dotCount: 40,
+      radiusMultiplier: 0.3,
+      lineWidth: 0.5,
+    },
+    medium: {
+      dotColor: "#2563eb",
+      lineColor: "rgba(59, 130, 246, 0.5)",
+      glowColor: "rgba(59, 130, 246, 0.2)",
+      dotCount: 50,
+      radiusMultiplier: 0.35,
+      lineWidth: 0.8,
+    },
+    bold: {
+      dotColor: "#1d4ed8",
+      lineColor: "rgba(59, 130, 246, 0.7)",
+      glowColor: "rgba(59, 130, 246, 0.25)",
+      dotCount: 60,
+      radiusMultiplier: 0.4,
+      lineWidth: 1,
+    },
+  }[variant];
 
   const [isVisible, setIsVisible] = useState(false);
 
@@ -76,30 +73,37 @@ export function AnimatedGlobe({
     const height = canvas.height = canvas.offsetHeight * 2;
     const centerX = width / 2;
     const centerY = height / 2;
-    const radius = Math.min(width, height) * 0.35 * intensityMultiplier;
+    const radius = Math.min(width, height) * config.radiusMultiplier;
 
-    dotsRef.current = Array.from({ length: dotCount }, () => {
+    const dots: Array<{
+      x: number;
+      y: number;
+      z: number;
+      size: number;
+      baseSize: number;
+    }> = [];
+
+    for (let i = 0; i < config.dotCount; i++) {
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos((Math.random() * 2) - 1);
       
-      return {
+      dots.push({
         x: Math.sin(phi) * Math.cos(theta),
         y: Math.sin(phi) * Math.sin(theta),
         z: Math.cos(phi),
-        size: Math.random() * 2.5 + 1.5,
-        delay: Math.random() * 2000,
-        duration: Math.random() * 2000 + 3000,
-      };
-    });
+        size: Math.random() * 3 + 2,
+        baseSize: Math.random() * 3 + 2,
+      });
+    }
 
     let time = 0;
 
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
-      time += speedMultiplier * 16.67;
+      time += 0.0005 * 16.67;
 
-      const projectedDots = dotsRef.current.map((dot) => {
+      const projectedDots = dots.map((dot) => {
         const rotatedX = dot.x * Math.cos(time) - dot.z * Math.sin(time);
         const rotatedZ = dot.x * Math.sin(time) + dot.z * Math.cos(time);
         
@@ -108,40 +112,65 @@ export function AnimatedGlobe({
         const scale = (rotatedZ + 2) / 3;
         const size = dot.size * scale;
 
-        return { x: screenX, y: screenY, size, z: rotatedZ, original: dot };
+        return { x: screenX, y: screenY, size, z: rotatedZ, dot };
       });
 
-      projectedDots.forEach((dot) => {
-        const opacity = Math.max(0.3, (dot.z + 1.2) / 2.2);
-        ctx.beginPath();
-        ctx.arc(dot.x, dot.y, Math.max(1, dot.size), 0, Math.PI * 2);
-        ctx.fillStyle = dotColor;
-        ctx.globalAlpha = opacity;
-        ctx.fill();
-      });
+      // Draw connections first (behind dots)
+      // Optimized: Only check nearby dots in sorted order, reduce iterations
+      const sortedByX = [...projectedDots].sort((a, b) => a.x - b.x);
+      const maxDist = 60; // Reduced from 80 for better performance
 
-      ctx.globalAlpha = 1;
+      for (let i = 0; i < sortedByX.length; i++) {
+        for (let j = i + 1; j < sortedByX.length; j++) {
+          const d1 = sortedByX[i];
+          const d2 = sortedByX[j];
 
-      for (let i = 0; i < projectedDots.length; i++) {
-        for (let j = i + 1; j < projectedDots.length; j++) {
-          const d1 = projectedDots[i];
-          const d2 = projectedDots[j];
+          // Early exit if x distance already exceeds threshold
+          if (d2.x - d1.x > maxDist) break;
+
           const dx = d1.x - d2.x;
           const dy = d1.y - d2.y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          
-          if (dist < 70 && d1.z > -0.3 && d2.z > -0.3) {
-            const opacity = (1 - dist / 70) * 0.25;
+
+          if (dist < maxDist && d1.z > -0.3 && d2.z > -0.3) {
+            const opacity = (1 - dist / maxDist) * 0.4;
             ctx.beginPath();
             ctx.moveTo(d1.x, d1.y);
             ctx.lineTo(d2.x, d2.y);
-            ctx.strokeStyle = lineColor;
+            ctx.strokeStyle = config.lineColor;
             ctx.globalAlpha = opacity;
-            ctx.lineWidth = 0.8;
+            ctx.lineWidth = config.lineWidth;
             ctx.stroke();
           }
         }
       }
+
+      // Draw dots with glow effect
+      projectedDots.forEach((dot) => {
+        const opacity = Math.max(0.5, (dot.z + 1.2) / 2.2);
+        
+        // Glow effect
+        const gradient = ctx.createRadialGradient(
+          dot.x, dot.y, 0,
+          dot.x, dot.y, dot.size * 3
+        );
+        gradient.addColorStop(0, `${config.dotColor}${Math.floor(opacity * 255).toString(16).padStart(2, '0')}`);
+        gradient.addColorStop(0.4, `${config.dotColor}${Math.floor(opacity * 0.3 * 255).toString(16).padStart(2, '0')}`);
+        gradient.addColorStop(1, 'transparent');
+        
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, dot.size * 3, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.globalAlpha = 1;
+        ctx.fill();
+
+        // Solid dot center
+        ctx.beginPath();
+        ctx.arc(dot.x, dot.y, Math.max(1.5, dot.size), 0, Math.PI * 2);
+        ctx.fillStyle = config.dotColor;
+        ctx.globalAlpha = opacity;
+        ctx.fill();
+      });
 
       ctx.globalAlpha = 1;
       animationRef.current = requestAnimationFrame(render);
@@ -154,105 +183,110 @@ export function AnimatedGlobe({
         cancelAnimationFrame(animationRef.current);
       }
     };
-  }, [isVisible, dotColor, lineColor, dotCount, speedMultiplier, intensityMultiplier]);
+  }, [isVisible, config]);
 
   return (
-    <div ref={containerRef} className={cn("relative w-full h-full flex items-center justify-center", className)}>
+    <div 
+      ref={containerRef} 
+      className={cn("relative w-full h-full flex items-center justify-center", className)}
+    >
+      {/* Background glow */}
+      <div 
+        className="absolute inset-0 rounded-full blur-3xl"
+        style={{ 
+          background: `radial-gradient(circle at center, ${config.glowColor} 0%, transparent 70%)`,
+        }}
+      />
+      
+      {/* Inner glow ring */}
+      <div 
+        className="absolute inset-0 rounded-full border"
+        style={{
+          borderColor: `${config.dotColor}30`,
+          boxShadow: `0 0 40px ${config.glowColor}, inset 0 0 40px ${config.glowColor}`,
+        }}
+      />
+
       {isVisible ? (
-        <>
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-full blur-xl" />
-          <canvas
-            ref={canvasRef}
-            className="w-full h-full max-w-[500px] aspect-square relative z-10"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-background/20 pointer-events-none" />
-        </>
+        <canvas
+          ref={canvasRef}
+          className="w-full h-full max-w-[500px] aspect-square relative z-10"
+        />
       ) : (
         <div className="w-full h-full max-w-[500px] aspect-square flex items-center justify-center">
-          <div className="w-32 h-32 rounded-full bg-primary/10 animate-pulse" />
+          <div 
+            className="w-32 h-32 rounded-full animate-pulse"
+            style={{
+              background: `radial-gradient(circle at center, ${config.dotColor}40 0%, transparent 70%)`,
+            }}
+          />
         </div>
       )}
     </div>
   );
 }
 
-interface StaticGlobeProps {
-  className?: string;
-}
-
-export function StaticGlobe({ className }: StaticGlobeProps) {
-  return (
-    <div className={cn("relative w-full h-full flex items-center justify-center", className)}>
-      <div className="relative w-64 h-64 md:w-80 md:h-80">
-        <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary/20 via-background to-accent/20 animate-pulse" />
-        <div className="absolute inset-4 rounded-full border border-primary/30" />
-        <div className="absolute inset-8 rounded-full border border-primary/20" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="w-48 h-48 md:w-60 md:h-60 relative">
-            {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-              <div
-                key={i}
-                className="absolute w-3 h-3 rounded-full bg-primary"
-                style={{
-                  top: "50%",
-                  left: "50%",
-                  transform: `rotate(${angle}deg) translateX(60px) translateY(-50%)`,
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-interface PulseGlobeProps {
-  className?: string;
-  primaryColor?: string;
-  accentColor?: string;
-}
-
-export function PulseGlobe({
+// Static version for better performance
+export function StaticGlobe({
   className,
-  primaryColor = "#3b82f6",
-  accentColor = "#8b5cf6",
-}: PulseGlobeProps) {
+  color = "#2563eb",
+}: {
+  className?: string;
+  color?: string;
+}) {
   return (
     <div className={cn("relative w-full h-full flex items-center justify-center", className)}>
       <div className="relative w-64 h-64 md:w-80 md:h-80">
-        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/30 via-transparent to-accent/30 animate-pulse" style={{ animationDuration: "3s" }} />
+        {/* Outer glow */}
+        <div 
+          className="absolute inset-0 rounded-full blur-2xl"
+          style={{ 
+            background: `radial-gradient(circle at center, ${color}30 0%, transparent 70%)`,
+          }}
+        />
         
-        <div className="absolute inset-2 rounded-full border border-primary/20" />
+        {/* Main circle */}
+        <div 
+          className="absolute inset-4 rounded-full border-2"
+          style={{
+            borderColor: `${color}60`,
+            boxShadow: `0 0 30px ${color}20, inset 0 0 30px ${color}10`,
+          }}
+        />
         
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-40 h-40">
-            {[0, 72, 144, 216, 288].map((angle, i) => (
-              <div
-                key={i}
-                className="absolute w-2 h-2 rounded-full"
-                style={{
-                  backgroundColor: i % 2 === 0 ? primaryColor : accentColor,
-                  top: "50%",
-                  left: "50%",
-                  transform: `rotate(${angle}deg) translateX(40px) translateY(-50%)`,
-                  animation: `pulse-dot ${2 + i * 0.2}s ease-in-out infinite`,
-                  animationDelay: `${i * 0.2}s`,
-                }}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Inner circle */}
+        <div 
+          className="absolute inset-12 rounded-full border"
+          style={{
+            borderColor: `${color}40`,
+          }}
+        />
+        
+        {/* Center glow */}
+        <div 
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: `radial-gradient(circle at 30% 30%, ${color}20 0%, transparent 50%)`,
+          }}
+        />
 
-        <div className="absolute -inset-4 rounded-full border border-primary/10 animate-ping" style={{ animationDuration: "4s" }} />
+        {/* Orbiting dots */}
+        <div className="absolute inset-0">
+          {[0, 60, 120, 180, 240, 300].map((angle, i) => (
+            <div
+              key={i}
+              className="absolute w-3 h-3 rounded-full shadow-lg"
+              style={{
+                backgroundColor: color,
+                boxShadow: `0 0 10px ${color}, 0 0 20px ${color}60`,
+                top: "50%",
+                left: "50%",
+                transform: `rotate(${angle}deg) translateX(${60 + i * 5}px) translateY(-50%)`,
+              }}
+            />
+          ))}
+        </div>
       </div>
-      
-      <style jsx>{`
-        @keyframes pulse-dot {
-          0%, 100% { opacity: 0.4; transform: translateX(40px) translateY(-50%) scale(1); }
-          50% { opacity: 1; transform: translateX(40px) translateY(-50%) scale(1.5); }
-        }
-      `}</style>
     </div>
   );
 }

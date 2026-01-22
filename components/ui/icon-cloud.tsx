@@ -31,6 +31,7 @@ export const IconCloud = memo(function IconCloud({ icons, images, priority = fal
   const iconCanvasesRef = useRef<HTMLCanvasElement[]>([])
   const imagesLoadedRef = useRef<boolean[]>([])
   const animationFrameRef = useRef<number>(0)
+  const svgCacheRef = useRef<Map<string, string>>(new Map())
 
   const targetRotationRef = useRef<{
     x: number
@@ -48,7 +49,7 @@ export const IconCloud = memo(function IconCloud({ icons, images, priority = fal
 
   const { ref, shouldRender } = useLazyAnimation({
     threshold: priority ? 0 : 0.1,
-    rootMargin: priority ? "0px" : "400px",
+    rootMargin: priority ? "0px" : "200px",
   })
 
   const createIconCanvases = useCallback(() => {
@@ -92,8 +93,15 @@ export const IconCloud = memo(function IconCloud({ icons, images, priority = fal
         } else {
           offCtx.scale(0.4, 0.4)
           const svgString = renderToString(item as React.ReactElement)
+          
+          let cachedSrc = svgCacheRef.current.get(svgString)
+          if (!cachedSrc) {
+            cachedSrc = "data:image/svg+xml;base64," + btoa(svgString)
+            svgCacheRef.current.set(svgString, cachedSrc)
+          }
+          
           const img = new Image()
-          img.src = "data:image/svg+xml;base64," + btoa(svgString)
+          img.src = cachedSrc
           img.onload = () => {
             offCtx.clearRect(0, 0, offscreen.width, offscreen.height)
             offCtx.drawImage(img, 0, 0)
@@ -296,12 +304,24 @@ export const IconCloud = memo(function IconCloud({ icons, images, priority = fal
       animationFrameRef.current = requestAnimationFrame(animate)
     }
 
+    const handleVisibility = () => {
+      if (document.hidden) {
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current)
+        }
+      } else {
+        animate()
+      }
+    }
+
+    document.addEventListener("visibilitychange", handleVisibility)
     animate()
 
     return () => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current)
       }
+      document.removeEventListener("visibilitychange", handleVisibility)
     }
   }, [shouldRender, isLoaded, iconPositions, icons, images])
 
@@ -323,6 +343,7 @@ export const IconCloud = memo(function IconCloud({ icons, images, priority = fal
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
       className="rounded-lg will-change-transform"
+      style={{ willChange: "transform" }}
       aria-label="Interactive 3D Icon Cloud"
       role="img"
     />

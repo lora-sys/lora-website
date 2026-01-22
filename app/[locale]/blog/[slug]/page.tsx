@@ -9,13 +9,13 @@ import { cn } from '@/lib/utils';
 export default async function Page(props: { params: Promise<{ slug: string; locale: string }> }) {
   const { slug, locale } = await props.params;
   const isEn = locale.startsWith('en');
-  
+
   let post = allPosts.find((p) => p.slug === slug);
 
   if (!post && isEn && !slug.endsWith('-en')) {
     post = allPosts.find((p) => p.slug === `${slug}-en`);
   }
-  
+
   if (!post && !isEn && slug.endsWith('-en')) {
     post = allPosts.find((p) => p.slug === slug.replace(/-en$/, ''));
   }
@@ -33,12 +33,12 @@ export default async function Page(props: { params: Promise<{ slug: string; loca
       <div className="absolute inset-0 z-0 pointer-events-none [contain:strict]">
         <Meteors number={20} />
       </div>
-      
+
       <div className="relative z-10 container mx-auto px-4 py-12 md:py-20">
         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 gap-10 xl:grid-cols-[minmax(0,1fr)_280px]">
           <div>
-            <Link 
-              href="/blog" 
+            <Link
+              href="/blog"
               className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-primary transition-all duration-300 mb-8 group hover:-translate-x-1"
             >
               <ArrowLeftIcon className="w-4 h-4 mr-2" />
@@ -56,11 +56,11 @@ export default async function Page(props: { params: Promise<{ slug: string; loca
                   })}
                 </time>
               </div>
-              
+
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tight mb-6 leading-tight bg-clip-text text-transparent bg-gradient-to-b from-foreground to-foreground/60">
                 {post.title}
               </h1>
-              
+
               <p className="text-lg md:text-xl text-muted-foreground font-medium leading-relaxed border-l-4 border-primary/50 pl-6 py-2">
                 {post.description}
               </p>
@@ -106,9 +106,19 @@ export default async function Page(props: { params: Promise<{ slug: string; loca
 }
 
 export async function generateStaticParams() {
-  return allPosts.map((post) => ({
-    slug: post.slug,
-  }));
+  const locales = ['en', 'zh']; // Define your locales here or import from config
+  const params = [];
+
+  for (const post of allPosts) {
+    for (const locale of locales) {
+      params.push({
+        slug: post.slug,
+        locale: locale,
+      });
+    }
+  }
+
+  return params;
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string }> }) {

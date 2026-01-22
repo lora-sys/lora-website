@@ -1,75 +1,33 @@
 "use client";
-import Image from "next/image";
-import { AuroraBackground } from "@/components/ui/aurora-background";
-import { OrbitingCircles } from "@/components/ui/orbiting-circles";
-import { CometCard } from "@/components/ui/comet-card";
-import { heroData } from "@/config/site-data";
-import { TypingAnimation } from "@/components/ui/typing-animation";
-import { Icons } from "@/components/ui/icons";
-import { useIntlayer } from "react-intlayer";
 
-export function HeroSection() {
-  const { typingText, cardTexts } = useIntlayer("hero");
-  
-  // Ensure typingText is handled correctly whether it's a string or array
-  const typingWords = Array.isArray(typingText?.value) 
-    ? typingText.value.map(String) 
+import { AuroraBackground } from "@/components/ui/aurora-background";
+import { HeroContent, HeroSkeleton } from "./hero-content";
+import { HeroAnimations } from "./hero-animations";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
+
+const HeroAnimationsWrapper = dynamic(
+  () => import("./hero-animations").then((mod) => mod.HeroAnimations),
+  { 
+    ssr: false,
+    loading: () => <HeroSkeleton />
+  }
+);
+
+export function HeroSection({ typingText, cardTexts }: { 
+  typingText: { value: string | string[] }
+  cardTexts: Array<{ value: string }>
+}) {
+  const typingWords = Array.isArray(typingText?.value)
+    ? typingText.value.map(String)
     : [String(typingText?.value || "Hi, I'm lora")];
 
   return (
     <AuroraBackground className="min-h-screen w-full py-20 overflow-hidden">
-      <div className="relative z-30 mb-12 text-center">
-        <TypingAnimation
-          words={typingWords}
-          duration={80}
-          startOnView={false}
-          className="text-3xl md:text-5xl font-bold tracking-tight text-foreground"
-          loop={true}
-        />
-      </div>
-
-      <div className="relative flex h-[600px] w-full items-center justify-center overflow-hidden">
-        <OrbitingCircles iconSize={40} radius={260}>
-          <Icons.gitHub />
-          <Icons.googleDrive />
-          <Icons.whatsapp />
-          <Icons.figma />
-        </OrbitingCircles>
-
-        <OrbitingCircles iconSize={30} radius={200} reverse speed={1.5}>
-          <Icons.openai />
-          <Icons.notion />
-        </OrbitingCircles>
-
-        <div className="z-10 flex flex-col items-center">
-          <div className="mb-4">
-            <Image
-              src={heroData.profileImage}
-              alt="Profile"
-              width={168}
-              height={168}
-              className="rounded-full border-2 border-primary shadow-lg shadow-primary/20"
-              priority
-            />
-          </div>
-
-          <CometCard className="max-w-md">
-            <div className="bg-background/80 backdrop-blur-sm p-6 rounded-2xl border border-border">
-              <div className="space-y-3 text-center">
-                <p className="text-lg font-medium text-primary">
-                  {cardTexts[0].value}
-                </p>
-                <p className="text-lg font-medium text-accent">
-                  {cardTexts[1].value}
-                </p>
-                <p className="text-lg font-medium text-secondary-foreground">
-                  {cardTexts[2].value}
-                </p>
-              </div>
-            </div>
-          </CometCard>
-        </div>
-      </div>
+      <HeroContent />
+      <Suspense fallback={<HeroSkeleton />}>
+        <HeroAnimationsWrapper typingWords={typingWords} cardTexts={cardTexts} />
+      </Suspense>
     </AuroraBackground>
   );
 }

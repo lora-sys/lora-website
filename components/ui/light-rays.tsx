@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, type CSSProperties } from "react"
+import { useEffect, useState, type CSSProperties, useRef } from "react"
 import { motion } from "motion/react"
 
 import { cn } from "@/lib/utils"
@@ -95,16 +95,40 @@ export function LightRays({
   ref,
   ...props
 }: LightRaysProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldRender, setShouldRender] = useState(false);
   const [rays, setRays] = useState<LightRay[]>([])
   const cycleDuration = Math.max(speed, 0.1)
 
   useEffect(() => {
-    setRays(createRays(count, cycleDuration))
-  }, [count, cycleDuration])
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!shouldRender) return;
+    setRays(createRays(count, cycleDuration));
+  }, [shouldRender, count, cycleDuration]);
 
   return (
     <div
-      ref={ref}
+      ref={(el) => {
+        if (ref && typeof ref === 'function') ref(el);
+        containerRef.current = el;
+      }}
       className={cn(
         "pointer-events-none absolute inset-0 isolate overflow-hidden rounded-[inherit]",
         className
@@ -140,7 +164,7 @@ export function LightRays({
             } as CSSProperties
           }
         />
-        {rays.map((ray) => (
+        {shouldRender && rays.map((ray) => (
           <Ray key={ray.id} {...ray} />
         ))}
       </div>

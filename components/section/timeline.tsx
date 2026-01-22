@@ -4,9 +4,14 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
 import { Meteors } from "@/components/ui/meteors";
-import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Timeline } from "@/components/ui/timeline";
 import { useIntlayer } from "react-intlayer";
+import dynamic from "next/dynamic";
+
+const TypingAnimation = dynamic(
+  () => import("@/components/ui/typing-animation").then((mod) => mod.TypingAnimation),
+  { ssr: false }
+);
 
 export function TimelineSection() {
   const { title, description, tags, items } = useIntlayer("timeline");
@@ -32,7 +37,7 @@ export function TimelineSection() {
         </div>
 
         <div className="relative mb-10 flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background/70 backdrop-blur-sm md:shadow-xl">
-          <Marquee pauseOnHover className="[--duration:18s]">
+          <Marquee pauseOnHover className="[--duration:10s]">
             {tagsList.map((tag: any, idx: number) => (
               <div
                 key={idx}

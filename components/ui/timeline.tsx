@@ -111,6 +111,7 @@ export const Timeline = ({
             style={{
               height: heightTransform,
               opacity: opacityTransform,
+              willChange: "height, opacity",
             }}
             className="absolute inset-x-0 top-0  w-[2px] bg-gradient-to-t from-purple-500 via-blue-500 to-transparent from-[0%] via-[10%] rounded-full"
           />

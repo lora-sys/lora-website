@@ -5,19 +5,20 @@ import { motion, stagger, useAnimate, useInView } from "motion/react";
 import { useEffect } from "react";
 
 export const TypewriterEffect = ({
-  words,
+  words = [],
   className,
   cursorClassName,
 }: {
-  words: {
+  words?: {
     text: string;
     className?: string;
   }[];
   className?: string;
   cursorClassName?: string;
 }) => {
-  // split text inside of words into array of characters
-  const wordsArray = words.map((word) => {
+  const wordsArray = words
+    .filter((word): word is { text: string; className?: string } => word != null && word.text != null)
+    .map((word) => {
     return {
       ...word,
       text: word.text.split(""),
@@ -27,22 +28,27 @@ export const TypewriterEffect = ({
   const [scope, animate] = useAnimate();
   const isInView = useInView(scope);
   useEffect(() => {
-    if (isInView) {
-      animate(
-        "span",
-        {
-          display: "inline-block",
-          opacity: 1,
-          width: "fit-content",
-        },
-        {
-          duration: 0.3,
-          delay: stagger(0.1),
-          ease: "easeInOut",
-        }
-      );
+    if (!scope.current || !isInView || wordsArray.length === 0) {
+      return;
     }
-  }, [isInView]);
+    const spanElements = scope.current.querySelectorAll("span");
+    if (spanElements.length === 0) {
+      return;
+    }
+    animate(
+      "span",
+      {
+        display: "inline-block",
+        opacity: 1,
+        width: "fit-content",
+      },
+      {
+        duration: 0.3,
+        delay: stagger(0.1),
+        ease: "easeInOut",
+      }
+    );
+  }, [isInView, wordsArray.length, animate, scope.current]);
 
   const renderWords = () => {
     return (
@@ -99,19 +105,20 @@ export const TypewriterEffect = ({
 };
 
 export const TypewriterEffectSmooth = ({
-  words,
+  words = [],
   className,
   cursorClassName,
 }: {
-  words: {
+  words?: {
     text: string;
     className?: string;
   }[];
   className?: string;
   cursorClassName?: string;
 }) => {
-  // split text inside of words into array of characters
-  const wordsArray = words.map((word) => {
+  const wordsArray = words
+    .filter((word): word is { text: string; className?: string } => word != null && word.text != null)
+    .map((word) => {
     return {
       ...word,
       text: word.text.split(""),

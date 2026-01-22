@@ -15,15 +15,12 @@ interface MousePosition {
   y: number
 }
 
-function MousePosition(): MousePosition {
-  const [mousePosition, setMousePosition] = useState<MousePosition>({
-    x: 0,
-    y: 0,
-  })
+function useMousePosition() {
+  const mousePosition = useRef<MousePosition>({ x: 0, y: 0 })
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY })
+      mousePosition.current = { x: event.clientX, y: event.clientY }
     }
 
     window.addEventListener("mousemove", handleMouseMove)
@@ -96,7 +93,7 @@ export const Particles: React.FC<ParticlesProps> = ({
   const canvasContainerRef = useRef<HTMLDivElement>(null)
   const context = useRef<CanvasRenderingContext2D | null>(null)
   const circles = useRef<Circle[]>([])
-  const mousePosition = MousePosition()
+  const mousePositionRef = useMousePosition()
   const mouse = useRef<{ x: number; y: number }>({ x: 0, y: 0 })
   const canvasSize = useRef<{ w: number; h: number }>({ w: 0, h: 0 })
   const dpr = typeof window !== "undefined" ? window.devicePixelRatio : 1
@@ -109,7 +106,13 @@ export const Particles: React.FC<ParticlesProps> = ({
   })
 
   useEffect(() => {
-    if (!shouldRender) return
+    if (!shouldRender) {
+      if (rafID.current != null) {
+        window.cancelAnimationFrame(rafID.current)
+        rafID.current = null
+      }
+      return
+    }
 
     if (canvasRef.current) {
       context.current = canvasRef.current.getContext("2d")
@@ -141,7 +144,7 @@ export const Particles: React.FC<ParticlesProps> = ({
 
   useEffect(() => {
     onMouseMove()
-  }, [mousePosition.x, mousePosition.y])
+  }, [mousePositionRef.current.x, mousePositionRef.current.y])
 
   useEffect(() => {
     initCanvas()
@@ -156,8 +159,8 @@ export const Particles: React.FC<ParticlesProps> = ({
     if (canvasRef.current) {
       const rect = canvasRef.current.getBoundingClientRect()
       const { w, h } = canvasSize.current
-      const x = mousePosition.x - rect.left - w / 2
-      const y = mousePosition.y - rect.top - h / 2
+      const x = mousePositionRef.current.x - rect.left - w / 2
+      const y = mousePositionRef.current.y - rect.top - h / 2
       const inside = x < w / 2 && x > -w / 2 && y < h / 2 && y > -h / 2
       if (inside) {
         mouse.current.x = x
@@ -329,6 +332,7 @@ export const Particles: React.FC<ParticlesProps> = ({
         <canvas
           ref={canvasRef}
           className="size-full will-change-transform"
+          style={{ willChange: "transform" }}
         />
       )}
     </div>

@@ -2,7 +2,13 @@ import { allPosts } from 'contentlayer/generated';
 import { Meteors } from '@/components/ui/meteors';
 import { PostList } from '@/components/blog/post-list';
 import { Locales } from 'intlayer';
-import { cn } from '@/lib/utils';
+
+export function generateStaticParams() {
+  return [
+    { locale: Locales.ENGLISH },
+    { locale: Locales.CHINESE },
+  ];
+}
 
 const blogIndexContent = {
   en: {
@@ -19,17 +25,17 @@ export default async function BlogIndex(props: { params: Promise<{ locale: strin
   const { locale } = await props.params;
   const isEn = locale.startsWith('en');
   const t = locale.startsWith('zh') ? blogIndexContent.zh : blogIndexContent.en;
-  
+
   const sortedPosts = allPosts
     .filter((post) => {
       const hasEnSuffix = post.slug.endsWith('-en');
-      
+
       if (isEn) {
         if (hasEnSuffix) return true;
         const hasEnVersion = allPosts.some(p => p.slug === `${post.slug}-en`);
         return !hasEnVersion;
-      } 
-      
+      }
+
       const hasEnVersion = allPosts.some(p => p.slug === `${post.slug}-en`);
       return (hasEnVersion && !hasEnSuffix) || (!hasEnVersion && !hasEnSuffix);
     })
@@ -40,7 +46,7 @@ export default async function BlogIndex(props: { params: Promise<{ locale: strin
       <div className="absolute inset-0 z-0 pointer-events-none [contain:strict]">
         <Meteors number={20} />
       </div>
-      
+
       <div className="relative z-10 container mx-auto px-4 py-16 md:py-24">
         <div className="max-w-3xl mb-16">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-foreground to-foreground/60">
@@ -50,7 +56,7 @@ export default async function BlogIndex(props: { params: Promise<{ locale: strin
             {t.description}
           </p>
         </div>
-        
+
         <PostList posts={sortedPosts} />
       </div>
     </div>

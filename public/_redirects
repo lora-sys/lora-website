@@ -1,0 +1,4 @@
+# Redirects for Cloudflare Pages (301 = permanent redirect)
+/ /en 301!
+/blog /en/blog 301!
+/blog/* /en/blog/:splat 301!

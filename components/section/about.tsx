@@ -64,34 +64,11 @@ export function AboutSection({
   techStackNameText: string;
   techStackDescriptionText: string;
 }) {
-  const [isSplineLoaded, setIsSplineLoaded] = useState(false);
-
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center py-20 overflow-hidden">
-      {/* Background Layer - Spline Scene */}
+      {/* Background Layer - Simple Gradient */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent opacity-50" />
-        <div className="absolute inset-0">
-          {!isSplineLoaded ? (
-            <div
-              className="absolute inset-0 flex items-center justify-center bg-neutral-100 dark:bg-neutral-900 cursor-pointer transition-colors hover:bg-neutral-200 dark:hover:bg-neutral-800"
-              onClick={() => setIsSplineLoaded(true)}
-              onMouseEnter={() => setIsSplineLoaded(true)}
-            >
-              <div className="text-center space-y-2">
-                <span className="text-4xl">🤖</span>
-                <p className="text-sm text-muted-foreground font-medium">Hover to load 3D Scene</p>
-              </div>
-            </div>
-          ) : (
-            <iframe
-              src={aboutData.splineScene}
-              className="h-full w-full border-0 animate-in fade-in duration-700"
-              loading="lazy"
-              title="3D Robot Scene"
-            />
-          )}
-        </div>
       </div>
 
       {/* Content Layer */}

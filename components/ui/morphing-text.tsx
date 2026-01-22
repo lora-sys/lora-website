@@ -1,13 +1,13 @@
 "use client"
 
-import { useCallback, useEffect, useRef } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
 const morphTime = 1.5
 const cooldownTime = 0.5
 
-const useMorphingText = (texts: string[]) => {
+const useMorphingText = (texts: string[], enabled: boolean = true) => {
   const textIndexRef = useRef(0)
   const morphRef = useRef(0)
   const cooldownRef = useRef(0)
@@ -67,6 +67,11 @@ const useMorphingText = (texts: string[]) => {
   }, [])
 
   useEffect(() => {
+    if (!enabled) {
+      doCooldown();
+      return;
+    }
+
     let animationFrameId: number
 
     const animate = () => {
@@ -86,7 +91,7 @@ const useMorphingText = (texts: string[]) => {
     return () => {
       cancelAnimationFrame(animationFrameId)
     }
-  }, [doMorph, doCooldown])
+  }, [enabled, doMorph, doCooldown])
 
   return { text1Ref, text2Ref }
 }
@@ -96,8 +101,8 @@ interface MorphingTextProps {
   texts: string[]
 }
 
-const Texts: React.FC<Pick<MorphingTextProps, "texts">> = ({ texts }) => {
-  const { text1Ref, text2Ref } = useMorphingText(texts)
+const Texts: React.FC<Pick<MorphingTextProps, "texts"> & { enabled: boolean }> = ({ texts, enabled }) => {
+  const { text1Ref, text2Ref } = useMorphingText(texts, enabled)
   return (
     <>
       <span
@@ -136,14 +141,38 @@ const SvgFilters: React.FC = () => (
 export const MorphingText: React.FC<MorphingTextProps> = ({
   texts,
   className,
-}) => (
-  <div
-    className={cn(
-      "relative mx-auto h-16 w-full max-w-screen-md text-center font-sans text-[40pt] leading-none font-bold [filter:url(#threshold)_blur(0.6px)] md:h-24 lg:text-[6rem]",
-      className
-    )}
-  >
-    <Texts texts={texts} />
-    <SvgFilters />
-  </div>
-)
+}) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      className={cn(
+        "relative mx-auto h-16 w-full max-w-screen-md text-center font-sans text-[40pt] leading-none font-bold [filter:url(#threshold)_blur(0.6px)] md:h-24 lg:text-[6rem]",
+        className
+      )}
+    >
+      {isVisible && <Texts texts={texts} enabled={isVisible} />}
+      <SvgFilters />
+    </div>
+  )
+}

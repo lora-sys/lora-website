@@ -10,7 +10,7 @@ export function LifeSection() {
   return (
     <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-20">
       <div className="absolute inset-0 -z-10">
-        <DotPattern className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)]" width={20} height={20} cx={1} cy={1} cr={1} glow={true} />
+        <DotPattern className="[mask-image:radial-gradient(600px_circle_at_center,white,transparent)]" width={20} height={20} cx={1} cy={1} cr={1} glow={true} sparse={true} />
       </div>
 
       <div className="container px-4 md:px-6">
@@ -62,7 +62,7 @@ export function LifeSection() {
         <div className="space-y-12">
           <div className="flex flex-col space-y-4">
             <h3 className="text-2xl font-bold ml-4">Favorite Tweets</h3>
-            <Marquee pauseOnHover className="[--duration:60s] py-4">
+            <Marquee pauseOnHover className="[--duration:15s] py-4">
               {life.tweets.map((tweet) => (
                 <TweetCard
                   key={tweet.id}
@@ -76,7 +76,7 @@ export function LifeSection() {
 
           <div className="flex flex-col space-y-4">
             <h3 className="text-2xl font-bold ml-4">Anime Wisdom</h3>
-            <Marquee reverse pauseOnHover className="[--duration:40s] py-4">
+            <Marquee reverse pauseOnHover className="[--duration:15s] py-4">
               {life.quotes.map((quote, idx) => (
                 <MagicCard
                   key={idx}

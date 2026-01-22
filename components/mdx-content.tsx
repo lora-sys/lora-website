@@ -79,8 +79,7 @@ class MDXErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState>
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error('MDX Content Error:', error, errorInfo);
+  componentDidCatch(_error: Error, _errorInfo: ErrorInfo) {
   }
 
   render() {
@@ -166,7 +165,6 @@ export function MDXContent({ code, components }: { code: string, components?: an
 
       return { MDXComponent: finalComponent, evaluationError: null };
     } catch (error: any) {
-      console.error('Error evaluating MDX code:', error);
       return { MDXComponent: null, evaluationError: error };
     }
   }, [code]);

@@ -1,5 +1,5 @@
 "use client"
-import { useMemo } from "react"
+import { useMemo, useRef, useState, useEffect } from "react"
 
 interface Meteor {
   left: string;
@@ -25,11 +25,31 @@ function generateMeteors(count: number, seed: number): Meteor[] {
 }
 
 export function Meteors({ number = 20 }: { number?: number }) {
-  const meteors = useMemo(() => generateMeteors(number, 12345), [number])
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [shouldRender, setShouldRender] = useState(false);
+  const meteors = useMemo(() => generateMeteors(number, 12345), [number]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "100px" }
+    );
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
-    <div className="relative overflow-hidden [contain:strict]">
-      {meteors.map((meteor, idx) => (
+    <div ref={containerRef} className="relative overflow-hidden [contain:strict]">
+      {shouldRender && meteors.map((meteor, idx) => (
         <div
           key={idx}
           className="animate-meteor-effect absolute h-px rounded-full bg-gradient-to-r from-transparent via-primary/50 to-transparent will-change-transform transform-gpu"

@@ -5,6 +5,7 @@ import { Footer } from "@/components/layout/footer";
 import "../globals.css";
 import { IntlayerClientProvider } from "next-intlayer";
 import { Locales } from "intlayer";
+import { GlobalErrorBoundary } from "@/components/error-boundary";
 
 export const metadata: Metadata = {
   title: {
@@ -46,7 +47,9 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <ResizableNavbar />
-            <div id="main-content">{children}</div>
+            <div id="main-content">
+              <GlobalErrorBoundary>{children}</GlobalErrorBoundary>
+            </div>
             <Footer />
           </ThemeProvider>
         </IntlayerClientProvider>

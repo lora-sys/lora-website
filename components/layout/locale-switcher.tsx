@@ -1,7 +1,7 @@
 "use client";
 
 import type { FC } from "react";
-import { Locales, getLocaleName, getLocalizedUrl } from "intlayer";
+import { Locales, getLocalizedUrl } from "intlayer";
 import { useLocale, useLocaleCookie } from "next-intlayer";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

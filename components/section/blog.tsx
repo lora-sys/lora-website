@@ -4,11 +4,16 @@ import { cn } from "@/lib/utils";
 import { Marquee } from "@/components/ui/marquee";
 import { AnimatedList } from "@/components/ui/animated-list";
 import { BorderBeam } from "@/components/ui/border-beam";
-import { TypingAnimation } from "@/components/ui/typing-animation";
 import { Meteors } from "@/components/ui/meteors";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useIntlayer } from "react-intlayer";
+import { useIntlayer, useLocale } from "react-intlayer";
+import dynamic from "next/dynamic";
+
+const TypingAnimation = dynamic(
+  () => import("@/components/ui/typing-animation").then((mod) => mod.TypingAnimation),
+  { ssr: false }
+);
 
 interface NotificationProps {
   title: string;
@@ -57,11 +62,12 @@ const Notification = ({ title, description, date, tag, color }: NotificationProp
 
 export function BlogSection() {
   const { hero, tags, latestArticles, posts } = useIntlayer("blog");
+  const { locale } = useLocale();
 
   return (
     <section id="blog" className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden py-20">
-      <Meteors number={30} />
-      
+      <Meteors number={15} />
+
       <div className="container px-4 md:px-6 relative z-10">
         <div className="mb-12 text-center space-y-4">
           <TypingAnimation className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500">
@@ -73,7 +79,7 @@ export function BlogSection() {
         </div>
 
         <div className="relative mb-16 flex w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-background md:shadow-xl">
-          <Marquee pauseOnHover className="[--duration:20s]">
+          <Marquee pauseOnHover className="[--duration:10s]">
             {tags.map((tag: { value: string }) => (
               <div
                 key={tag.value}
@@ -105,8 +111,8 @@ export function BlogSection() {
 
           <div className="relative flex h-[500px] w-full flex-col p-6 overflow-hidden rounded-xl border bg-background/50 backdrop-blur-sm md:shadow-2xl">
             <div className="absolute top-6 right-6 z-20">
-              <Link 
-                href="/blog" 
+              <Link
+                href={`/${locale}/blog`}
                 className="group inline-flex items-center gap-2 text-sm font-medium text-primary transition-colors hover:text-primary/80 bg-background/80 backdrop-blur-sm px-3 py-1 rounded-full border shadow-sm"
               >
                 {latestArticles.viewAll?.value}
@@ -117,13 +123,13 @@ export function BlogSection() {
             <div className="flex flex-col gap-4 mt-8">
               <AnimatedList>
                 {posts.map((post: { title: { value: string }; description: { value: string }; date: { value: string }; tag: { value: string }; color: { value: string } }) => (
-                  <Notification 
+                  <Notification
                     title={post.title.value}
                     description={post.description.value}
                     date={post.date.value}
                     tag={post.tag.value}
                     color={post.color.value}
-                    key={post.title.value} 
+                    key={post.title.value}
                   />
                 ))}
               </AnimatedList>
@@ -132,6 +138,6 @@ export function BlogSection() {
           </div>
         </div>
       </div>
-    </section>
+    </section >
   );
 }

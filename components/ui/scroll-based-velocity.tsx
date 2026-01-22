@@ -166,12 +166,15 @@ function ScrollVelocityRowImpl({
   return (
     <div
       ref={containerRef}
-      className={cn("w-full overflow-hidden whitespace-nowrap", className)}
+      className={cn("relative w-full overflow-hidden whitespace-nowrap", className)}
       {...props}
     >
       <motion.div
         className="inline-flex transform-gpu items-center will-change-transform select-none"
-        style={{ x }}
+        style={{ 
+          x,
+          willChange: "transform",
+        }}
       >
         {Array.from({ length: numCopies }).map((_, i) => (
           <div

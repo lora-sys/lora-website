@@ -1,4 +1,3 @@
-
 @import "@fontsource-variable/geist";
 @import "@fontsource-variable/geist-mono";
 
@@ -50,66 +49,112 @@
   --radius-3xl: calc(var(--radius) + 12px);
   --radius-4xl: calc(var(--radius) + 16px);
   --animate-blink-cursor: blink-cursor 1.2s step-end infinite;
+
   @keyframes blink-cursor {
-  0%, 49% {
-    opacity: 1;
+
+    0%,
+    49% {
+      opacity: 1;
     }
-  50%, 100% {
-    opacity: 0;
+
+    50%,
+    100% {
+      opacity: 0;
     }
   }
+
   --animate-marquee: marquee var(--duration) infinite linear;
-  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite
-;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+
   @keyframes marquee {
-  from {
-    transform: translateX(0);}
-  to {
-    transform: translateX(calc(-100% - var(--gap)));}}
-  @keyframes marquee-vertical {
-  from {
-    transform: translateY(0);}
-  to {
-    transform: translateY(calc(-100% - var(--gap)));}}
-  --animate-orbit: orbit calc(var(--duration)*1s) linear infinite;
-  @keyframes orbit {
-  0% {
-    transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));}
-  100% {
-    transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));}}
-  --animate-shine: shine var(--duration) infinite linear;
-  @keyframes shine {
-  0% {
-    background-position: 0% 0%;}
-  50% {
-    background-position: 100% 100%;}
-  to {
-    background-position: 0% 0%;}}
-  --animate-ripple: ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite;
-  @keyframes ripple {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);}
-  50% {
-    transform: translate(-50%, -50%) scale(0.9);}}
-  --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
-  @keyframes background-position-spin {
-  0% {
-    background-position: top center;}
-  100% {
-    background-position: bottom center;}
-  --animate-aurora: aurora 60s linear infinite;
-  @keyframes aurora {
     from {
-      background-position: 50% 50%, 50% 50%;
+      transform: translateX(0);
     }
+
     to {
-      background-position: 350% 50%, 350% 50%;
+      transform: translateX(calc(-100% - var(--gap)));
     }
   }
-}}
+
+  @keyframes marquee-vertical {
+    from {
+      transform: translateY(0);
+    }
+
+    to {
+      transform: translateY(calc(-100% - var(--gap)));
+    }
+  }
+
+  --animate-orbit: orbit calc(var(--duration)*1s) linear infinite;
+
+  @keyframes orbit {
+    0% {
+      transform: rotate(calc(var(--angle) * 1deg)) translateY(calc(var(--radius) * 1px)) rotate(calc(var(--angle) * -1deg));
+    }
+
+    100% {
+      transform: rotate(calc(var(--angle) * 1deg + 360deg)) translateY(calc(var(--radius) * 1px)) rotate(calc((var(--angle) * -1deg) - 360deg));
+    }
+  }
+
+  --animate-shine: shine var(--duration) infinite linear;
+
+  @keyframes shine {
+    0% {
+      background-position: 0% 0%;
+    }
+
+    50% {
+      background-position: 100% 100%;
+    }
+
+    to {
+      background-position: 0% 0%;
+    }
+  }
+
+  --animate-ripple: ripple var(--duration, 2s) ease calc(var(--i, 0)*.2s) infinite;
+
+  @keyframes ripple {
+
+    0%,
+    100% {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    50% {
+      transform: translate(-50%, -50%) scale(0.9);
+    }
+  }
+
+  --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
+
+  @keyframes background-position-spin {
+    0% {
+      background-position: top center;
+    }
+
+    100% {
+      background-position: bottom center;
+    }
+
+    --animate-aurora: aurora 60s linear infinite;
+
+    @keyframes aurora {
+      from {
+        transform: translate(0, 0) rotate(0deg);
+      }
+
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+  }
+}
 
 :root {
-/* 背景 - 奶白色 */
+  /* 背景 - 奶白色 */
   --background: oklch(98% 0.015 50);
   --foreground: oklch(20% 0.02 250);
 
@@ -205,21 +250,27 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 7rem;
   }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -229,7 +280,7 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   /* Optimize rendering performance */
   .content-visibility-auto {
     content-visibility: auto;
@@ -266,15 +317,17 @@
   .animate-meteor-effect {
     animation: meteor 3s ease-in-out infinite;
   }
-  
+
   @keyframes meteor {
     0% {
       transform: translateX(0) translateY(0) rotate(45deg);
       opacity: 1;
     }
+
     70% {
       opacity: 1;
     }
+
     100% {
       transform: translateX(-500px) translateY(0) rotate(45deg);
       opacity: 0;
@@ -301,5 +354,11 @@
 
   .dark::view-transition-new(root) {
     z-index: 1;
+  }
+
+  .animate-marquee,
+  .animate-marquee-vertical {
+    will-change: transform;
+    backface-visibility: hidden;
   }
 }

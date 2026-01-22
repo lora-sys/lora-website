@@ -6,18 +6,21 @@ import { CalendarIcon, ArrowRightIcon, SearchIcon } from 'lucide-react';
 import type { Post } from 'contentlayer/generated';
 import { cn } from '@/lib/utils';
 
+import { useLocale } from 'next-intlayer';
+
 interface PostListProps {
   posts: Post[];
 }
 
 export function PostList({ posts }: PostListProps) {
+  const { locale } = useLocale();
   const [searchQuery, setSearchQuery] = useState('');
   const [hoveredPost, setHoveredPost] = useState<string | null>(null);
 
   const filteredPosts = useMemo(() => {
     if (!searchQuery) return posts;
     const lowerQuery = searchQuery.toLowerCase();
-    return posts.filter((post) => 
+    return posts.filter((post) =>
       post.title.toLowerCase().includes(lowerQuery) ||
       post.description?.toLowerCase().includes(lowerQuery)
     );
@@ -43,14 +46,14 @@ export function PostList({ posts }: PostListProps) {
           filteredPosts.map((post) => (
             <Link
               key={post.slug}
-              href={`/blog/${post.slug}`}
+              href={`/${locale}/blog/${post.slug}`}
               className="group relative flex flex-col justify-between bg-card/40 backdrop-blur-md border border-border/50 hover:border-primary/50 rounded-xl p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl overflow-hidden gpu-accelerated"
               onMouseEnter={() => setHoveredPost(post.slug)}
               onMouseLeave={() => setHoveredPost(null)}
             >
               {/* Animated gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              
+
               {/* Corner accent */}
               <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-bl from-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -65,15 +68,15 @@ export function PostList({ posts }: PostListProps) {
                     })}
                   </time>
                 </div>
-                
+
                 <h2 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors duration-300 line-clamp-2">
                   {post.title}
                 </h2>
-                
+
                 <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-6 line-clamp-3 flex-grow">
                   {post.description}
                 </p>
-                
+
                 <div className={cn(
                   "flex items-center text-sm font-medium text-primary mt-auto transition-all duration-300",
                   hoveredPost === post.slug ? "group-hover:translate-x-1" : ""
