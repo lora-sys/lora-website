@@ -2,10 +2,8 @@
 @import "@fontsource-variable/geist-mono";
 
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
@@ -129,6 +127,7 @@
   }
 
   --animate-background-position-spin: background-position-spin 3000ms infinite alternate;
+  --animate-aurora: aurora 60s linear infinite;
 
   @keyframes background-position-spin {
     0% {
@@ -138,17 +137,15 @@
     100% {
       background-position: bottom center;
     }
+  }
 
-    --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    from {
+      transform: translate(0, 0) rotate(0deg);
+    }
 
-    @keyframes aurora {
-      from {
-        transform: translate(0, 0) rotate(0deg);
-      }
-
-      to {
-        transform: translate(-50%, -50%) rotate(360deg);
-      }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
     }
   }
 }
